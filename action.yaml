@@ -33,7 +33,7 @@ runs:
 
     - name: Install cargo-about
       shell: bash
-      run: cargo install --locked cargo-about
+      run: cargo install --debug --locked cargo-about
 
     - name: Install Ruby toolchain
       uses: ruby/setup-ruby@v1
