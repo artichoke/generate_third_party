@@ -18,6 +18,11 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        path: generate_third_party-checkout
+
     - name: Clone Artichoke
       uses: actions/checkout@v3
       with:
@@ -43,8 +48,10 @@ runs:
       with:
         ruby-version: ".ruby-version"
         bundler-cache: true
+        working-directory: generate_third_party-checkout
 
     - name: Generate THIRDPARTY
       id: generate_third_party
       shell: bash
-      run: echo "::set-output name=third_party_licenses::$(bundle exec generate-third-party-text-file-single-target "${{ inputs.target_triple }}" "artichoke-${{ inputs.artichoke_ref }}/Cargo.toml")"
+      run: echo "::set-output name=third_party_licenses::$(bundle exec generate-third-party-text-file-single-target "${{ inputs.target_triple }}" "../artichoke-${{ inputs.artichoke_ref }}/Cargo.toml")"
+      working-directory: generate_third_party-checkout
