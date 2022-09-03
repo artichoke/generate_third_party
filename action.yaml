@@ -21,7 +21,8 @@ runs:
     - name: Checkout Repository
       uses: actions/checkout@v3
       with:
-        path: generate_third_party-checkout
+        repository: artichoke/generate_third_party
+        path: generate_third_party
 
     - name: Clone Artichoke
       uses: actions/checkout@v3
@@ -48,10 +49,18 @@ runs:
       with:
         ruby-version: ".ruby-version"
         bundler-cache: true
-        working-directory: generate_third_party-checkout
+        working-directory: generate_third_party
 
     - name: Generate THIRDPARTY
       id: generate_third_party
       shell: bash
-      run: echo "::set-output name=third_party_licenses::$(bundle exec generate-third-party-text-file-single-target "${{ inputs.target_triple }}" "../artichoke-${{ inputs.artichoke_ref }}/Cargo.toml")"
-      working-directory: generate_third_party-checkout
+      working-directory: generate_third_party
+      run: |
+        third_party="$(bundle exec generate-third-party-text-file-single-target \
+          "${{ inputs.target_triple }}" \
+          "../artichoke-${{ inputs.artichoke_ref }}/Cargo.toml"
+        )"
+        third_party="${third_party//'%'/'%25'}"
+        third_party="${third_party//$'\n'/'%0A'}"
+        third_party="${third_party//$'\r'/'%0D'}"
+        echo "::set-output name=third_party_licenses::$third_party"
