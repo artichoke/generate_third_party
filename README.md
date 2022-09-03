@@ -34,9 +34,8 @@ This repository is available as a GitHub Action:
     target_triple: x86_64-unknown-linux-gnu
 
 - name: Output THIRDPARTY listing
-  run:
-    echo "${{ steps.generate_third_party.outputs.third_party_licenses }}" >
-    THIRDPARTY
+  run: |
+    echo "${{ steps.generate_third_party.outputs.third_party_licenses }}" > THIRDPARTY
 ```
 
 ## Supported Targets
