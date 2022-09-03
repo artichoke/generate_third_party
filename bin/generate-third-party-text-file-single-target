@@ -30,7 +30,7 @@ if target.nil?
 
     Where TARGET is one of:
 
-    #{KNOWN_TARGETS.map { |target| "- #{target}" }.join("\n").strip}
+    #{KNOWN_TARGETS.map { |triple| "- #{triple}" }.join("\n").strip}
   ERR
   exit 2
 end
