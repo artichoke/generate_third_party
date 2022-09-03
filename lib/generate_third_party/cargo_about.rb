@@ -22,9 +22,7 @@ module Artichoke
           @config = config
         end
 
-        def manifest_path
-          @manifest_path
-        end
+        attr_reader :manifest_path
 
         def invoke
           command = ['cargo', 'about', 'generate', @template, '--manifest-path', manifest_path, '--config', @config]

@@ -35,7 +35,7 @@ end
 
 manifest_path = ARGV[1]
 if manifest_path.nil? || !manifest_path.end_with?('Cargo.toml')
-  warn "Error: Must pass path to `Cargo.toml` as positional argument."
+  warn 'Error: Must pass path to `Cargo.toml` as positional argument.'
   exit 1
 end
 

@@ -1,0 +1,19 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "img.shields.io"
+    },
+    {
+      "pattern": "^https://docs.rs/.*"
+    }
+  ],
+  "replacementPatterns": [],
+  "httpHeaders": [
+    {
+      "urls": ["https://crates.io"],
+      "headers": {
+        "Accept": "text/html"
+      }
+    }
+  ]
+}
