@@ -32,7 +32,7 @@ This repository is available as a GitHub Action:
   with:
     artichoke_ref: trunk
     target_triple: x86_64-unknown-linux-gnu
-    output_file: THIRDPARTY
+    output_file: ${{ github.workspace }}/THIRDPARTY
 ```
 
 ## Supported Targets
