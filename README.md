@@ -32,13 +32,7 @@ This repository is available as a GitHub Action:
   with:
     artichoke_ref: trunk
     target_triple: x86_64-unknown-linux-gnu
-
-- name: Output THIRDPARTY listing
-  run: |
-    echo "$THIRD_PARTY_LICENSES" > THIRDPARTY
-  env:
-    THIRD_PARTY_LICENSES:
-      ${{ steps.generate_third_party.outputs.third_party_licenses }}
+    output_file: THIRDPARTY
 ```
 
 ## Supported Targets

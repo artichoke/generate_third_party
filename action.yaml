@@ -9,21 +9,13 @@ inputs:
   target_triple:
     required: true
     type: string
-
-outputs:
-  third_party_licenses:
-    description: Plaintext listing of third party licenses
-    value: ${{ steps.generate_third_party.outputs.third_party_licenses }}
+  output_file:
+    required: true
+    type: string
 
 runs:
   using: "composite"
   steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-        repository: artichoke/generate_third_party
-        path: generate_third_party
-
     - name: Clone Artichoke
       uses: actions/checkout@v3
       with:
@@ -31,36 +23,53 @@ runs:
         ref: ${{ inputs.artichoke_ref }}
         path: "artichoke-${{ inputs.artichoke_ref }}"
 
-    - name: Install cargo-about
-      shell: bash
-      run: |
-        release_api_endpoint="https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
-        release_url="$(curl -s -H "Accept: application/vnd.github.v3+json" "$release_api_endpoint" | jq -r '
-          .[0].assets
-          | map(select(.browser_download_url
-          | test(".*x86_64-unknown-linux.*tar.gz$")))
-          | .[0].browser_download_url
-          '
-        )"
-        curl -sL "$release_url" | sudo tar xvz -C /usr/local/bin/ --strip-components=1
-
     - name: Install Ruby toolchain
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ".ruby-version"
         bundler-cache: true
-        working-directory: generate_third_party
+        working-directory: ${{ github.action_path }}
+
+    - name: Install cargo-about
+      shell: bash
+      run: |
+        tarball_test=""
+        if [[ "${{ runner.os }}" == "Linux" ]]; then
+          tarball_test=".*x86_64-unknown-linux.*tar.gz$"
+        elif [[ "${{ runner.os }}" == "macOS" ]]; then
+          tarball_test=".*x86_64-apple-darwin.*tar.gz$"
+        elif [[ "${{ runner.os }}" == "Windows" ]]; then
+          tarball_test=".*x86_64-pc-windows-msvc.*tar.gz$"
+        fi
+        release_api_endpoint="https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
+        release_url="$(curl -s -H "Accept: application/vnd.github.v3+json" "$release_api_endpoint" | jq -r '
+          .[0].assets
+          | map(select(.browser_download_url
+          | test("'"${tarball_test}"'")))
+          | .[0].browser_download_url
+          '
+        )"
+        if [[ "${{ runner.os }}" == "Linux" ]]; then
+          mkdir "${{ github.workspace }}/cargo-about-bin"
+          curl -sL "$release_url" | tar xvz -C "${{ github.workspace }}/cargo-about-bin/" --strip-components=1
+          echo "${{ github.workspace }}/cargo-about-bin" >> $GITHUB_PATH
+        elif [[ "${{ runner.os }}" == "macOS" ]]; then
+          mkdir "${{ github.workspace }}/cargo-about-bin"
+          curl -sL "$release_url" | gtar xvz -C "${{ github.workspace }}/cargo-about-bin/" --strip-components=1
+          echo "${{ github.workspace }}/cargo-about-bin" >> $GITHUB_PATH
+        elif [[ "${{ runner.os }}" == "Windows" ]]; then
+          mkdir '${{ github.workspace }}/cargo-about-bin'
+          curl -sL "$release_url" > '${{ github.workspace }}/cargo-about-bin/cargo-about.tar.gz'
+          cd '${{ github.workspace }}/cargo-about-bin'
+          tar xvzf 'cargo-about.tar.gz' -C '.' --strip-components=1
+          echo '${{ github.workspace }}/cargo-about-bin' >> $GITHUB_PATH
+        fi
 
     - name: Generate THIRDPARTY
-      id: generate_third_party
       shell: bash
-      working-directory: generate_third_party
+      working-directory: ${{ github.action_path }}
       run: |
-        third_party="$(bundle exec generate-third-party-text-file-single-target \
+        bundle exec generate-third-party-text-file-single-target \
           "${{ inputs.target_triple }}" \
-          "../artichoke-${{ inputs.artichoke_ref }}/Cargo.toml"
-        )"
-        third_party="${third_party//'%'/'%25'}"
-        third_party="${third_party//$'\n'/'%0A'}"
-        third_party="${third_party//$'\r'/'%0D'}"
-        echo "::set-output name=third_party_licenses::$third_party"
+          "${{ github.workspace }}/artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
+          > "${{ inputs.output_file }}"

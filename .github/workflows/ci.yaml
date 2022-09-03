@@ -34,14 +34,55 @@ jobs:
         with:
           artichoke_ref: trunk
           target_triple: ${{ matrix.target }}
+          output_file: THIRDPARTY
 
       - name: Check THIRDPARTY output
+        shell: bash
         run: |
-          if (( $(grep -c . <<<"$THIRD_PARTY_LICENSES") < 10 )); then
+          if (( $(grep -c . < THIRDPARTY) < 10 )); then
             exit 1
           fi
-        env:
-          THIRD_PARTY_LICENSES: ${{ steps.generate_third_party.outputs.third_party_licenses }}
+
+  platform-support:
+    name: Platform Support
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        build:
+          - macos
+          - ubuntu
+          - windows
+        include:
+          - build: macos
+            os: macos-latest
+            target: x86_64-apple-darwin
+          - build: ubuntu
+            os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - build: windows
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          path: generate_third_party_action
+
+      - name: Generate THIRDPARTY license listing
+        id: generate_third_party
+        uses: ./generate_third_party_action
+        with:
+          artichoke_ref: trunk
+          target_triple: ${{ matrix.target }}
+          output_file: THIRDPARTY
+
+      - name: Check THIRDPARTY output
+        shell: bash
+        run: |
+          if (( $(grep -c . < THIRDPARTY) < 10 )); then
+            exit 1
+          fi
 
   ruby:
     name: Lint and format Ruby
