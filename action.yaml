@@ -1,0 +1,50 @@
+---
+name: "Generate THIRDPARTY"
+description: "Generate license listing of third party dependencies in Artichoke Ruby"
+
+inputs:
+  artichoke_ref:
+    required: true
+    type: string
+  target_triple:
+    required: true
+    type: string
+
+outputs:
+  third_party_licenses:
+    description: Plaintext listing of third party licenses
+    value: ${{ steps.generate_third_party.outputs.third_party_licenses }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Clone Artichoke
+      uses: actions/checkout@v3
+      with:
+        repository: artichoke/artichoke
+        ref: ${{ inputs.artichoke_ref }}
+        path: "artichoke-${{ inputs.artichoke_ref }}"
+
+    - name: Install cargo-about
+      shell: bash
+      run: |
+        release_api_endpoint="https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
+        release_url="$(curl -s -H "Accept: application/vnd.github.v3+json" "$release_api_endpoint" | jq -r '
+          .[0].assets
+          | map(select(.browser_download_url
+          | test(".*x86_64-unknown-linux.*tar.gz$")))
+          | .[0].browser_download_url
+          '
+        )"
+        curl -sL "$release_url" | sudo tar xvz -C /usr/local/bin/ --strip-components=1
+
+    - name: Install Ruby toolchain
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ".ruby-version"
+        bundler-cache: true
+
+    - name: Generate THIRDPARTY
+      id: generate_third_party
+      shell: bash
+      run: echo "::set-output name=third_party_licenses::$(bundle exec generate-third-party-text-file-single-target "${{ inputs.target_triple }}" "artichoke-${{ inputs.artichoke_ref }}/Cargo.toml")"
