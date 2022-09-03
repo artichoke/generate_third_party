@@ -13,6 +13,7 @@ KNOWN_TARGETS = %w[
   aarch64-unknown-linux-musl
   i686-pc-windows-gnu
   i686-pc-windows-msvc
+  i686-unknown-linux-gnu
   x86_64-apple-darwin
   x86_64-pc-windows-msvc
   x86_64-unknown-linux-gnu
@@ -28,15 +29,7 @@ if target.nil?
 
     Where TARGET is one of:
 
-    - aarch64-apple-darwin
-    - aarch64-unknown-linux-gnu
-    - aarch64-unknown-linux-musl
-    - i686-pc-windows-gnu
-    - i686-pc-windows-msvc
-    - x86_64-apple-darwin
-    - x86_64-pc-windows-msvc
-    - x86_64-unknown-linux-gnu
-    - x86_64-unknown-linux-musl
+    #{KNOWN_TARGETS.map { |target| "- #{target}" }.join("\n").strip}
   ERR
   exit 2
 end
