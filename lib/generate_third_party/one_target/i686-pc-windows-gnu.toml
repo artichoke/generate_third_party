@@ -6,7 +6,7 @@ accepted = [
   "Unicode-DFS-2016",
 ]
 targets = [
-  "i686-pc-windows-msvc",
+  "i686-pc-windows-gnu",
 ]
 workarounds = ["chrono", "clap"]
 
