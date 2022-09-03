@@ -11,7 +11,7 @@ module Artichoke
           raise ArgumentError unless target.is_a?(String)
 
           cmd = CargoAbout.new(
-            config: File.join(__dir__, 'one_target', target, 'about.toml'),
+            config: File.join(__dir__, 'one_target', "#{target}.toml"),
             manifest_path:
           )
 
