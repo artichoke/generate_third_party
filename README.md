@@ -37,7 +37,8 @@ This repository is available as a GitHub Action:
 
 ## Supported Targets
 
-`generate_third_party` supports all [tier 1 Rust platforms] and [tier 2 MUSL targets].
+`generate_third_party` supports all [tier 1 Rust platforms] and [tier 2 MUSL
+targets].
 
 - `aarch64-apple-darwin`
 - `aarch64-unknown-linux-gnu`
@@ -51,5 +52,7 @@ This repository is available as a GitHub Action:
 - `x86_64-unknown-linux-gnu`
 - `x86_64-unknown-linux-musl`
 
-[tier 1 rust platforms]: https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-1-with-host-tools
-[tier 2 musl targets]: https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-2-with-host-tools
+[tier 1 rust platforms]:
+  https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-1-with-host-tools
+[tier 2 musl targets]:
+  https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-2-with-host-tools
