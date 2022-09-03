@@ -33,16 +33,7 @@ runs:
 
     - name: Install cargo-about
       shell: bash
-      run: |
-        release_api_endpoint="https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
-        release_url="$(curl -s -H "Accept: application/vnd.github.v3+json" "$release_api_endpoint" | jq -r '
-          .[0].assets
-          | map(select(.browser_download_url
-          | test(".*x86_64-unknown-linux.*tar.gz$")))
-          | .[0].browser_download_url
-          '
-        )"
-        curl -sL "$release_url" | sudo tar xvz -C /usr/local/bin/ --strip-components=1
+      run: cargo install --locked cargo-about
 
     - name: Install Ruby toolchain
       uses: ruby/setup-ruby@v1
