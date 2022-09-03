@@ -1,0 +1,74 @@
+---
+name: CI
+"on":
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+  schedule:
+    - cron: "0 0 * * TUE"
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-musl
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate THIRDPARTY license listing
+        id: generate_third_party
+        uses: ./
+        with:
+          artichoke_ref: trunk
+          target_triple: ${{ matrix.target }}
+
+      - name: Check THIRDPARTY output
+        run: |
+          if [[ -z "${{ steps.generate_third_party.outputs.third_party_licenses }}" ]]; then
+            exit 1
+          fi
+          echo "${{ steps.generate_third_party.outputs.third_party_licenses }}"
+
+  ruby:
+    name: Lint and format Ruby
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Ruby toolchain
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ".ruby-version"
+          bundler-cache: true
+
+      - name: Lint and check formatting with Rubocop
+        run: bundle exec rubocop --format github
+
+  text:
+    name: Lint and format text
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Lint and check formatting with prettier
+        run: npx prettier --check '**/*'
+
+      - name: Lint YAML sources with yamllint
+        run: |
+          yamllint --version
+          echo "Linting YAML sources with yamllint ..."
+          yamllint --strict --format github .
+          echo "OK"
