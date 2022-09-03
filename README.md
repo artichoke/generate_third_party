@@ -37,13 +37,19 @@ This repository is available as a GitHub Action:
 
 ## Supported Targets
 
-- aarch64-apple-darwin
-- aarch64-unknown-linux-gnu
-- aarch64-unknown-linux-musl
-- i686-pc-windows-gnu
-- i686-pc-windows-msvc
-- i686-unknown-linux-gnu
-- x86_64-apple-darwin
-- x86_64-pc-windows-msvc
-- x86_64-unknown-linux-gnu
-- x86_64-unknown-linux-musl
+`generate_third_party` supports all [tier 1 Rust platforms] and [tier 2 MUSL targets].
+
+- `aarch64-apple-darwin`
+- `aarch64-unknown-linux-gnu`
+- `aarch64-unknown-linux-musl`
+- `i686-pc-windows-gnu`
+- `i686-pc-windows-msvc`
+- `i686-unknown-linux-gnu`
+- `x86_64-apple-darwin`
+- `x86_64-pc-windows-gnu`
+- `x86_64-pc-windows-msvc`
+- `x86_64-unknown-linux-gnu`
+- `x86_64-unknown-linux-musl`
+
+[tier 1 rust platforms]: https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-1-with-host-tools
+[tier 2 musl targets]: https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-2-with-host-tools
