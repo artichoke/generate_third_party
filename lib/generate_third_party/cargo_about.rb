@@ -14,16 +14,16 @@ module Artichoke
           status.success?
         end
 
-        def initialize(config:, template: nil)
+        def initialize(config:, manifest_path:, template: nil)
           template = File.join(__dir__, 'cargo_about', 'about.hbs') if template.nil?
 
           @template = template
+          @manifest_path = manifest_path
           @config = config
         end
 
         def manifest_path
-          path = File.join(__dir__, '..', '..', '..', 'Cargo.toml')
-          File.expand_path(path)
+          @manifest_path
         end
 
         def invoke

@@ -7,6 +7,12 @@ Signal.trap('PIPE', 'SYSTEM_DEFAULT') if Signal.list.include?('PIPE')
 
 require 'generate_third_party'
 
+manifest_path = ARGV[0]
+if manifest_path.nil? || !manifest_path.end_with?('Cargo.toml')
+  warn "Error: Must pass path to `Cargo.toml` as first argument."
+  exit 1
+end
+
 unless Artichoke::Generate::ThirdParty::CargoAbout.present?
   warn <<~ERR
     Error: `cargo-about` not found in PATH.
@@ -19,4 +25,4 @@ unless Artichoke::Generate::ThirdParty::CargoAbout.present?
   exit 1
 end
 
-puts Artichoke::Generate::ThirdParty::AllTargets.third_party_html
+puts Artichoke::Generate::ThirdParty::AllTargets.third_party_html(manifest_path)

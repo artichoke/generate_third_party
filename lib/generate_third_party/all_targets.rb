@@ -6,9 +6,10 @@ module Artichoke
   module Generate
     module ThirdParty
       module AllTargets
-        def self.third_party_flatfile
+        def self.third_party_flatfile(manifest_path)
           cmd = CargoAbout.new(
-            config: File.join(__dir__, 'all_targets', 'about.toml')
+            config: File.join(__dir__, 'all_targets', 'about.toml'),
+            manifest_path:,
           )
 
           deps = cmd.invoke
@@ -34,9 +35,10 @@ module Artichoke
           s.string
         end
 
-        def self.third_party_html
+        def self.third_party_html(manifest_path)
           cmd = CargoAbout.new(
-            config: File.join(__dir__, 'all_targets', 'about.toml')
+            config: File.join(__dir__, 'all_targets', 'about.toml'),
+            manifest_path:,
           )
 
           deps = cmd.invoke

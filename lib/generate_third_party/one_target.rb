@@ -6,12 +6,13 @@ module Artichoke
   module Generate
     module ThirdParty
       module OneTarget
-        def self.third_party_flatfile(target)
+        def self.third_party_flatfile(target, manifest_path)
           raise ArgumentError if target.nil?
           raise ArgumentError unless target.is_a?(String)
 
           cmd = CargoAbout.new(
-            config: File.join(__dir__, 'one_target', target, 'about.toml')
+            config: File.join(__dir__, 'one_target', target, 'about.toml'),
+            manifest_path:,
           )
 
           deps = cmd.invoke

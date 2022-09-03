@@ -20,7 +20,7 @@ if target.nil?
   warn <<~ERR
     Error: Missing required TARGET argument.
 
-    Usage: generate-third-party-text-file-single-target TARGET
+    Usage: generate-third-party-text-file-single-target TARGET manifest-path
 
     Where TARGET is one of:
 
@@ -31,6 +31,12 @@ if target.nil?
     - aarch64-apple-darwin
   ERR
   exit 2
+end
+
+manifest_path = ARGV[1]
+if manifest_path.nil? || !manifest_path.end_with?('Cargo.toml')
+  warn "Error: Must pass path to `Cargo.toml` as positional argument."
+  exit 1
 end
 
 unless KNOWN_TARGETS.include?(target)
@@ -62,4 +68,4 @@ unless Artichoke::Generate::ThirdParty::CargoAbout.present?
   exit 1
 end
 
-puts Artichoke::Generate::ThirdParty::OneTarget.third_party_flatfile(target)
+puts Artichoke::Generate::ThirdParty::OneTarget.third_party_flatfile(target, manifest_path)
