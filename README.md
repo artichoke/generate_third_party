@@ -35,7 +35,10 @@ This repository is available as a GitHub Action:
 
 - name: Output THIRDPARTY listing
   run: |
-    echo "${{ steps.generate_third_party.outputs.third_party_licenses }}" > THIRDPARTY
+    echo "$THIRD_PARTY_LICENSES" > THIRDPARTY
+  env:
+    THIRD_PARTY_LICENSES:
+      ${{ steps.generate_third_party.outputs.third_party_licenses }}
 ```
 
 ## Supported Targets

@@ -25,20 +25,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          path: generate_third_party_action
 
       - name: Generate THIRDPARTY license listing
         id: generate_third_party
-        uses: ./
+        uses: ./generate_third_party_action
         with:
           artichoke_ref: trunk
           target_triple: ${{ matrix.target }}
 
       - name: Check THIRDPARTY output
         run: |
-          if [[ -z "${{ steps.generate_third_party.outputs.third_party_licenses }}" ]]; then
+          if (( $(grep -c . <<<"$THIRD_PARTY_LICENSES") < 10 )); then
             exit 1
           fi
-          echo "${{ steps.generate_third_party.outputs.third_party_licenses }}"
+        env:
+          THIRD_PARTY_LICENSES: ${{ steps.generate_third_party.outputs.third_party_licenses }}
 
   ruby:
     name: Lint and format Ruby
