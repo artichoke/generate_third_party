@@ -9,7 +9,7 @@ module Artichoke
         def self.third_party_flatfile(manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'all_targets', 'about.toml'),
-            manifest_path:,
+            manifest_path:
           )
 
           deps = cmd.invoke
@@ -38,7 +38,7 @@ module Artichoke
         def self.third_party_html(manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'all_targets', 'about.toml'),
-            manifest_path:,
+            manifest_path:
           )
 
           deps = cmd.invoke

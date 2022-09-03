@@ -12,7 +12,7 @@ module Artichoke
 
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'one_target', target, 'about.toml'),
-            manifest_path:,
+            manifest_path:
           )
 
           deps = cmd.invoke
