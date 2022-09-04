@@ -91,12 +91,11 @@ runs:
           | .[0].browser_download_url
           '
         )"
-        archive='${{ github.workspace }}\cargo-about-bin\cargo-about.tar.gz'
-        extract_to='${{ github.workspace }}\cargo-about-bin'
-        mkdir "$extract_to"
-        curl --silent --show-error --retry 5 --fail --location "$release_url" > "$archive"
-        tar xvzf "$archive" -C "$extract_to" --strip-components=1
-        echo "$extract_to" >> $GITHUB_PATH
+        mkdir '${{ github.workspace }}\cargo-about-bin'
+        curl --silent --show-error --retry 5 --fail --location "$release_url" > '${{ github.workspace }}\cargo-about-bin\cargo-about.tar.gz'
+        cd '${{ github.workspace }}\cargo-about-bin'
+        tar xvzf 'cargo-about.tar.gz' -C '.' --strip-components=1
+        echo '${{ github.workspace }}\cargo-about-bin' >> $GITHUB_PATH
 
     - name: Generate THIRDPARTY
       shell: bash
