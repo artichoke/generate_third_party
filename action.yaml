@@ -25,8 +25,10 @@ runs:
 
     - name: Install Ruby toolchain
       uses: ruby/setup-ruby@v1
+      env:
+        BUNDLE_WITHOUT: development
       with:
-        ruby-version: ".ruby-version"
+        ruby-version: "3.1.2"
         bundler-cache: true
         working-directory: ${{ github.action_path }}
 
@@ -105,3 +107,5 @@ runs:
           "${{ inputs.target_triple }}" \
           "${{ github.workspace }}/artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
           > "${{ inputs.output_file }}"
+      env:
+        BUNDLE_WITHOUT: development
