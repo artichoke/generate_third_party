@@ -1,0 +1,129 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# avoid ugly stacks on permissible signals
+Signal.trap('INT', 'SYSTEM_DEFAULT') if Signal.list.include?('INT')
+Signal.trap('PIPE', 'SYSTEM_DEFAULT') if Signal.list.include?('PIPE')
+
+require 'fileutils'
+require 'json'
+require 'open-uri'
+require 'rubygems/package'
+require 'securerandom'
+require 'stringio'
+require 'tmpdir'
+
+# Set an output for a GitHub Actions job.
+#
+# https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
+def set_output(name:, value:)
+  puts "::set-output name=#{name}::#{value}"
+end
+
+# Create an expandable log group in GitHub Actions job logs.
+#
+# https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#grouping-log-lines
+def log_group(group)
+  puts "::group::#{group}"
+  begin
+    yield
+  ensure
+    puts '::endgroup::'
+  end
+end
+
+# Retry a block the given number of times with rudimentary backoff.
+def retry_with(times:)
+  yield
+rescue StandardError => e
+  puts "Error during processing: #{e.class}: #{e}"
+  puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
+
+  times -= 1
+  raise if times.zero?
+
+  puts 'Retrying ...'
+  sleep 5
+  retry
+end
+
+platform_filter =
+  case ARGV[0]&.downcase
+  when 'linux' then /.*x86_64-unknown-linux.*tar.gz$/
+  when 'macos' then /.*x86_64-apple-darwin.*tar.gz$/
+  when 'windows' then /.*x86_64-pc-windows-msvc.*tar.gz$/
+  when nil
+    warn("USAGE: #{$PROGRAM_NAME} [ linux | macos | windows ]")
+    exit 1
+  else
+    warn('Unsupported platform')
+    warn
+    warn("USAGE: #{$PROGRAM_NAME} [ linux | macos | windows ]")
+    exit 1
+  end
+
+artifact_url, artifact_name = log_group('Get current cargo-about release') do
+  releases_endpoint = URI.parse('https://api.github.com/repos/EmbarkStudios/cargo-about/releases')
+
+  retry_with(times: 5) do
+    releases_endpoint.open('Accept' => 'application/vnd.github.v3+json') do |data|
+      buf = StringIO.new
+      IO.copy_stream(data, buf)
+
+      metadata = JSON.parse(buf.string)
+
+      release = metadata.fetch(0)
+      puts "Found cargo-about #{release.fetch('tag_name')}"
+
+      assets = release.fetch('assets')
+      artifact = assets.find { |asset| platform_filter.match?(asset.fetch('browser_download_url')) }
+
+      name = artifact.fetch('name')
+      download_url = artifact.fetch('browser_download_url')
+
+      puts "cargo-about download URL: #{download_url}"
+
+      [download_url, name]
+    end
+  end
+end
+
+# Make temporary directory to install `cargo-about` binaries to.
+#
+# If running on GitHub Actions, use the `RUNNER_TEMP` directory.
+#
+# `RUNNER_TEMP` is the path to a temporary directory on the runner. This
+# directory is emptied at the beginning and end of each job.
+temp_dir = ENV.fetch('RUNNER_TEMP') do
+  Dir.mktmpdir(['generate_third_party', SecureRandom.hex])
+end
+destination = File.join(temp_dir, 'cargo-about-bin')
+FileUtils.mkdir_p(destination)
+
+bin_path = log_group('Install cargo-about') do
+  retry_with(times: 5) do
+    puts "Downloading cargo-about from #{artifact_url}"
+
+    URI.parse(artifact_url).open do |data|
+      puts 'Download in progress'
+      puts "Extracting tarball to #{destination}"
+
+      Gem::Package.new('').extract_tar_gz(data, destination)
+
+      puts 'Extraction complete'
+    end
+
+    bin_path = File.join(destination, artifact_name.delete_suffix('.tar.gz'))
+
+    puts "Installed cargo-about to #{destination}"
+    puts "Binary path: #{bin_path}"
+
+    bin_path
+  end
+end
+
+if (path_file = ENV.fetch('GITHUB_PATH', nil))
+  File.open(path_file, 'a') do |f|
+    f.puts bin_path
+  end
+end

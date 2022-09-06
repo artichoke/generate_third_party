@@ -21,7 +21,7 @@ runs:
       with:
         repository: artichoke/artichoke
         ref: ${{ inputs.artichoke_ref }}
-        path: "artichoke-${{ inputs.artichoke_ref }}"
+        path: "generate-third-party-artichoke-${{ inputs.artichoke_ref }}"
 
     - name: Install Ruby toolchain
       uses: ruby/setup-ruby@v1
@@ -32,72 +32,12 @@ runs:
         bundler-cache: true
         working-directory: ${{ github.action_path }}
 
-    - name: Install cargo-about for Linux
+    - name: Install cargo-about
       shell: bash
-      if: runner.os == 'Linux'
-      run: |
-        release_info="$(curl \
-          --silent \
-          --retry 5 \
-          --retry-all-errors \
-          --fail \
-          --header "Accept: application/vnd.github.v3+json" \
-          "https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
-        )"
-        release_url="$(echo "$release_info" | jq -r '
-          .[0].assets
-          | map(select(.browser_download_url
-          | test(".*x86_64-unknown-linux.*tar.gz$")))
-          | .[0].browser_download_url
-          '
-        )"
-        curl --silent --retry 5 --retry-all-errors --fail --location "$release_url" | tar xvz -C /usr/local/bin/ --strip-components=1
-
-    - name: Install cargo-about for macOS
-      shell: bash
-      if: runner.os == 'macOS'
-      run: |
-        release_info="$(curl \
-          --silent \
-          --retry 5 \
-          --retry-all-errors \
-          --fail \
-          --header "Accept: application/vnd.github.v3+json" \
-          "https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
-        )"
-        release_url="$(echo "$release_info" | jq -r '
-          .[0].assets
-          | map(select(.browser_download_url
-          | test(".*x86_64-apple-darwin.*tar.gz$")))
-          | .[0].browser_download_url
-          '
-        )"
-        curl --silent --retry 5 --retry-all-errors --fail --location "$release_url" | gtar xvz -C /usr/local/bin/ --strip-components=1
-
-    - name: Install cargo-about for Windows
-      shell: bash
-      if: runner.os == 'Windows'
-      run: |
-        release_info="$(curl \
-          --silent \
-          --retry 5 \
-          --retry-all-errors \
-          --fail \
-          --header "Accept: application/vnd.github.v3+json" \
-          "https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
-        )"
-        release_url="$(echo "$release_info" | jq -r '
-          .[0].assets
-          | map(select(.browser_download_url
-          | test(".*x86_64-pc-windows-msvc.*tar.gz$")))
-          | .[0].browser_download_url
-          '
-        )"
-        mkdir '${{ github.workspace }}\cargo-about-bin'
-        curl --silent --retry 5 --retry-all-errors --fail --location "$release_url" > '${{ github.workspace }}\cargo-about-bin\cargo-about.tar.gz'
-        cd '${{ github.workspace }}\cargo-about-bin'
-        tar xvzf 'cargo-about.tar.gz' -C '.' --strip-components=1
-        echo '${{ github.workspace }}\cargo-about-bin' >> $GITHUB_PATH
+      working-directory: ${{ github.action_path }}
+      run: bundle exec install-cargo-about "${{ runner.os }}"
+      env:
+        BUNDLE_WITHOUT: development
 
     - name: Generate THIRDPARTY
       shell: bash
@@ -105,7 +45,11 @@ runs:
       run: |
         bundle exec generate-third-party-text-file-single-target \
           "${{ inputs.target_triple }}" \
-          "${{ github.workspace }}/artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
+          "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
           > "${{ inputs.output_file }}"
       env:
         BUNDLE_WITHOUT: development
+
+    - name: Cleanup
+      shell: bash
+      run: rm -rf "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}"
