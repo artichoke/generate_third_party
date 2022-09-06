@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     generate_third_party (0.0.0)
+      sorbet-runtime (~> 0.5)
 
 GEM
   remote: https://rubygems.org/
@@ -92,7 +93,6 @@ DEPENDENCIES
   rubocop (~> 1.36)
   rubocop-rake (~> 0.6)
   sorbet (~> 0.5)
-  sorbet-runtime (~> 0.5)
   tapioca
 
 BUNDLED WITH
