@@ -123,7 +123,10 @@ bin_path = log_group('Install cargo-about') do
 end
 
 if (path_file = ENV.fetch('GITHUB_PATH', nil))
-  File.open(path_file, 'a') do |f|
-    f.puts bin_path
+  log_group('Modifying path') do
+    File.open(path_file, 'a') do |f|
+      f.puts bin_path
+    end
+    puts "Entries added to path:\n\t#{bin_path}"
   end
 end
