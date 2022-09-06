@@ -38,8 +38,8 @@ runs:
       run: |
         release_info="$(curl \
           --silent \
-          --show-error \
           --retry 5 \
+          --retry-all-errors \
           --fail \
           --header "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
@@ -51,7 +51,7 @@ runs:
           | .[0].browser_download_url
           '
         )"
-        curl --silent --show-error --retry 5 --fail --location "$release_url" | tar xvz -C /usr/local/bin/ --strip-components=1
+        curl --silent --retry 5 --retry-all-errors --fail --location "$release_url" | tar xvz -C /usr/local/bin/ --strip-components=1
 
     - name: Install cargo-about for macOS
       shell: bash
@@ -59,8 +59,8 @@ runs:
       run: |
         release_info="$(curl \
           --silent \
-          --show-error \
           --retry 5 \
+          --retry-all-errors \
           --fail \
           --header "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
@@ -72,7 +72,7 @@ runs:
           | .[0].browser_download_url
           '
         )"
-        curl --silent --show-error --retry 5 --fail --location "$release_url" | gtar xvz -C /usr/local/bin/ --strip-components=1
+        curl --silent --retry 5 --retry-all-errors --fail --location "$release_url" | gtar xvz -C /usr/local/bin/ --strip-components=1
 
     - name: Install cargo-about for Windows
       shell: bash
@@ -80,8 +80,8 @@ runs:
       run: |
         release_info="$(curl \
           --silent \
-          --show-error \
           --retry 5 \
+          --retry-all-errors \
           --fail \
           --header "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/EmbarkStudios/cargo-about/releases"
@@ -94,7 +94,7 @@ runs:
           '
         )"
         mkdir '${{ github.workspace }}\cargo-about-bin'
-        curl --silent --show-error --retry 5 --fail --location "$release_url" > '${{ github.workspace }}\cargo-about-bin\cargo-about.tar.gz'
+        curl --silent --retry 5 --retry-all-errors --fail --location "$release_url" > '${{ github.workspace }}\cargo-about-bin\cargo-about.tar.gz'
         cd '${{ github.workspace }}\cargo-about-bin'
         tar xvzf 'cargo-about.tar.gz' -C '.' --strip-components=1
         echo '${{ github.workspace }}\cargo-about-bin' >> $GITHUB_PATH
