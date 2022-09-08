@@ -34,6 +34,7 @@ end
 
 # Retry a block the given number of times with rudimentary backoff.
 def retry_with(times:)
+  backoff = 5
   yield
 rescue StandardError => e
   puts "Error during processing: #{e.class}: #{e}"
@@ -42,8 +43,13 @@ rescue StandardError => e
   times -= 1
   raise if times.zero?
 
+  puts "Backing off for #{backoff}s before retrying ..."
+
+  sleep(backoff)
+  backoff *= 2
+
   puts 'Retrying ...'
-  sleep 5
+
   retry
 end
 
