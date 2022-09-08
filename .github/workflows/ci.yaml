@@ -41,6 +41,7 @@ jobs:
           artichoke_ref: trunk
           target_triple: ${{ matrix.target }}
           output_file: THIRDPARTY
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check THIRDPARTY output
         shell: bash
@@ -82,6 +83,7 @@ jobs:
           artichoke_ref: trunk
           target_triple: ${{ matrix.target }}
           output_file: THIRDPARTY
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check THIRDPARTY output
         shell: bash
