@@ -65,8 +65,13 @@ platform_filter =
 artifact_url, artifact_name = log_group('Get current cargo-about release') do
   releases_endpoint = URI.parse('https://api.github.com/repos/EmbarkStudios/cargo-about/releases')
 
+  headers = { 'Accept' => 'application/json' }
+  if (github_token = ENV.fetch('GITHUB_TOKEN', nil))
+    headers['Authorization'] = "Bearer #{github_token}"
+  end
+
   retry_with(times: 5) do
-    releases_endpoint.open('Accept' => 'application/vnd.github.v3+json') do |data|
+    releases_endpoint.open(headers) do |data|
       buf = StringIO.new
       IO.copy_stream(data, buf)
 

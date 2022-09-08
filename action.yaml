@@ -12,6 +12,9 @@ inputs:
   output_file:
     required: true
     type: string
+  github_token:
+    required: true
+    type: string
 
 runs:
   using: "composite"
@@ -38,6 +41,7 @@ runs:
       run: bundle exec install-cargo-about "${{ runner.os }}"
       env:
         BUNDLE_WITHOUT: development
+        GITHUB_TOKEN: ${{ inputs.github_token }}
 
     - name: Generate THIRDPARTY
       shell: bash
