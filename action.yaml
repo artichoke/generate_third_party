@@ -28,31 +28,26 @@ runs:
 
     - name: Install Ruby toolchain
       uses: ruby/setup-ruby@v1
-      env:
-        BUNDLE_WITHOUT: development
       with:
         ruby-version: "3.1.2"
-        bundler-cache: true
-        working-directory: ${{ github.action_path }}
+
+    - name: Install generate_third_party
+      shell: bash
+      run: gem install ${{ github.action_path }}
 
     - name: Install cargo-about
       shell: bash
-      working-directory: ${{ github.action_path }}
-      run: bundle exec install-cargo-about "${{ runner.os }}"
+      run: install-cargo-about "${{ runner.os }}"
       env:
-        BUNDLE_WITHOUT: development
         GITHUB_TOKEN: ${{ inputs.github_token }}
 
     - name: Generate THIRDPARTY
       shell: bash
-      working-directory: ${{ github.action_path }}
       run: |
-        bundle exec generate-third-party-text-file-single-target \
+        generate-third-party-text-file-single-target \
           "${{ inputs.target_triple }}" \
           "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
           > "${{ inputs.output_file }}"
-      env:
-        BUNDLE_WITHOUT: development
 
     - name: Cleanup
       shell: bash
