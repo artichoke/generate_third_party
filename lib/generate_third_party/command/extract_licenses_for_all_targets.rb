@@ -10,8 +10,19 @@ module Artichoke
       class ExtractLicensesForAllTargets
         extend T::Sig
 
+        private_class_method :new
+
+        # Generate plaintext listing of all license texts on all supported
+        # targets.
+        #
+        # The given manifest path should point to a `Cargo.toml` file.
         sig { params(manifest_path: String).returns(String) }
         def self.call(manifest_path)
+          new.call(manifest_path)
+        end
+
+        sig { params(manifest_path: String).returns(String) }
+        def call(manifest_path)
           cmd = CargoAbout.new(
             config: cargo_about_config_path,
             manifest_path: manifest_path
@@ -41,7 +52,7 @@ module Artichoke
         end
 
         sig { returns(String) }
-        private_class_method def self.cargo_about_config_path
+        private def cargo_about_config_path
           File.join(__dir__, '..', 'targets', 'all.toml')
         end
       end

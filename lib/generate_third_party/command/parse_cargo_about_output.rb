@@ -10,10 +10,17 @@ module Artichoke
       class ParseCargoAboutOutput
         extend T::Sig
 
+        private_class_method :new
+
         # Parse the output of `cargo about` and return a list of `Dependency`
         # objects alphabetized by dependency name.
         sig { params(raw: String).returns(T::Array[Dependency]) }
         def self.call(raw)
+          new.call(raw)
+        end
+
+        sig { params(raw: String).returns(T::Array[Dependency]) }
+        def call(raw)
           # Psych won't parse a document delimiter in a quoted string, so munge it
           tx = raw.gsub(
             '--- LLVM Exceptions to the Apache 2.0 License ----',
