@@ -7,6 +7,9 @@ module Artichoke
   module Generate
     module ThirdParty
       module AllTargets
+        extend T::Sig
+
+        sig {params(manifest_path: String).returns(String)}
         def self.third_party_flatfile(manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'all_targets', 'about.toml'),
@@ -16,7 +19,7 @@ module Artichoke
           deps = cmd.invoke
 
           s = StringIO.new
-          needs_separator = false
+          needs_separator = T.let(false, T::Boolean)
           deps.each do |dep|
             if needs_separator
               s.puts
@@ -36,6 +39,7 @@ module Artichoke
           s.string
         end
 
+        sig {params(manifest_path: String).returns(String)}
         def self.third_party_html(manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'all_targets', 'about.toml'),
