@@ -1,5 +1,7 @@
 ---
-require: rubocop-rake
+require:
+  - rubocop-rake
+  - rubocop-sorbet
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.1

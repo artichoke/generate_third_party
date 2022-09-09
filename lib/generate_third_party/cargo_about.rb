@@ -1,32 +1,36 @@
+# typed: strict
 # frozen_string_literal: true
 
 require 'open3'
-require 'shellwords'
+require 'sorbet-runtime'
 require 'stringio'
 
 module Artichoke
   module Generate
     module ThirdParty
       class CargoAbout
+        extend T::Sig
+
+        sig { returns(T::Boolean) }
         def self.present?
           _out, status = Open3.capture2e('cargo about --version')
 
-          status.success?
+          status.success? || false
         end
 
+        sig { params(config: String, manifest_path: String, template: T.nilable(String)).void }
         def initialize(config:, manifest_path:, template: nil)
           template = File.join(__dir__, 'cargo_about', 'about.hbs') if template.nil?
 
-          @template = template
-          @manifest_path = manifest_path
-          @config = config
+          @template = T.let(template, String)
+          @manifest_path = T.let(manifest_path, String)
+          @config = T.let(config, String)
         end
 
-        attr_reader :manifest_path
-
+        sig { returns(T::Array[Dependency]) }
         def invoke
-          command = ['cargo', 'about', 'generate', @template, '--manifest-path', manifest_path, '--config', @config]
-          out, err, status = Open3.capture3(command.shelljoin)
+          command = ['cargo', 'about', 'generate', @template, '--manifest-path', @manifest_path, '--config', @config]
+          out, err, status = Open3.capture3(*command)
 
           warn err unless err.strip.empty?
 
@@ -36,29 +40,6 @@ module Artichoke
           end
 
           Deps.parse(out)
-        end
-
-        def self.third_party_flatfile
-          cmd = CargoAbout.new(
-            cwd: File.join(__dir__, 'all_targets')
-          )
-
-          deps = cmd.invoke
-          deps.sort_by!(&:name)
-
-          s = StringIO.new
-          first = true
-          deps.each do |dep|
-            s.puts unless first
-
-            s.puts "#{dep.name} #{dep.version}"
-            s.puts ''
-            s.puts dep.url
-            s.puts
-            s.puts dep.license_full_text
-
-            first = false
-          end
         end
       end
     end

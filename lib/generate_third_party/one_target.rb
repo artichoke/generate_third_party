@@ -1,15 +1,16 @@
+# typed: strict
 # frozen_string_literal: true
 
+require 'sorbet-runtime'
 require 'stringio'
 
 module Artichoke
   module Generate
     module ThirdParty
       module OneTarget
+        extend T::Sig
+        sig { params(target: String, manifest_path: String).returns(String) }
         def self.third_party_flatfile(target, manifest_path)
-          raise ArgumentError if target.nil?
-          raise ArgumentError unless target.is_a?(String)
-
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'one_target', "#{target}.toml"),
             manifest_path:
@@ -18,7 +19,7 @@ module Artichoke
           deps = cmd.invoke
 
           s = StringIO.new
-          needs_separator = false
+          needs_separator = T.let(false, T::Boolean)
           deps.each do |dep|
             if needs_separator
               s.puts

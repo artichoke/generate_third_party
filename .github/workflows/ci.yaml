@@ -108,6 +108,9 @@ jobs:
       - name: Lint and check formatting with Rubocop
         run: bundle exec rubocop --format github
 
+      - name: Typecheck with Sorbet
+        run: bundle exec srb tc
+
   text:
     name: Lint and format text
     runs-on: ubuntu-latest

@@ -1,5 +1,7 @@
+# typed: strict
 # frozen_string_literal: true
 
+require 'sorbet-runtime'
 require 'stringio'
 require 'yaml'
 
@@ -7,8 +9,11 @@ module Artichoke
   module Generate
     module ThirdParty
       module Deps
+        extend T::Sig
+
         # Parse the output of `cargo about` and return a list of `Dependency` objects
         # alphabetized by dependency name.
+        sig { params(cargo_about_output: String).returns(T::Array[Dependency]) }
         def self.parse(cargo_about_output)
           # Psych won't parse a document delimiter in a quoted string, so munge it
           tx = cargo_about_output.gsub(
@@ -17,7 +22,7 @@ module Artichoke
           )
 
           # turn license text blocks into pipe-delimited literal multi-line strings
-          is_text = false
+          is_text = T.let(false, T::Boolean)
           tx = tx.each_line.map do |line|
             if is_text && line == "@@@@text-end@@@@\n"
               is_text = false
@@ -46,17 +51,31 @@ module Artichoke
       end
 
       class Dependency
+        extend T::Sig
+
+        sig { returns(String) }
         attr_reader :name, :version, :url, :license, :license_id
 
+        sig do
+          params(
+            name: String,
+            version: String,
+            url: String,
+            license: String,
+            license_id: String,
+            text: String
+          ).void
+        end
         def initialize(name, version, url, license, license_id, text)
-          @name = name
-          @version = version
-          @url = url
-          @license = license
-          @license_id = license_id
-          @text = text
+          @name = T.let(name, String)
+          @version = T.let(version, String)
+          @url = T.let(url, String)
+          @license = T.let(license, String)
+          @license_id = T.let(license_id, String)
+          @text = T.let(text, String)
         end
 
+        sig { params(hash: T::Hash[String, String]).returns(Dependency) }
         def self.from_hash(hash)
           new(
             hash.fetch('name'),
@@ -68,6 +87,7 @@ module Artichoke
           )
         end
 
+        sig { returns(String) }
         def license_full_text
           @text.gsub(
             'aaa LLVM Exceptions to the Apache 2.0 License zzzz',
@@ -75,6 +95,7 @@ module Artichoke
           )
         end
 
+        sig { returns(String) }
         def to_yaml
           s = StringIO.new
           s.puts <<~YAML

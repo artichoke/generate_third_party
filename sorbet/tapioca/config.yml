@@ -1,0 +1,42 @@
+---
+# Add your `gem` command parameters here:
+#
+# exclude:
+# - gem_name
+# doc: true
+# workers: 5
+gem:
+  exclude:
+    - ast
+    - bundler
+    - bundler-audit
+    - coderay
+    - diff-lcs
+    - method_source
+    - netrc
+    - parallel
+    - parser
+    - pry
+    - rainbow
+    - rake
+    - rbi
+    - regexp_parser
+    - rexml
+    - rubocop
+    - rubocop-ast
+    - rubocop-rake
+    - ruby-progressbar
+    - spoom
+    - tapioca
+    - thor
+    - unicode-display_width
+    - unparser
+    - webrick
+    - yard
+    - yard-sorbet
+# Add your `dsl` command parameters here:
+#
+# exclude:
+# - SomeGeneratorName
+# workers: 5
+dsl:
