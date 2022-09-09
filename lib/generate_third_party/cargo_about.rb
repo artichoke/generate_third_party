@@ -30,7 +30,7 @@ module Artichoke
         sig { returns(T::Array[Dependency]) }
         def invoke
           command = ['cargo', 'about', 'generate', @template, '--manifest-path', @manifest_path, '--config', @config]
-          out, err, status = Open3.capture3(command)
+          out, err, status = Open3.capture3(*command)
 
           warn err unless err.strip.empty?
 
