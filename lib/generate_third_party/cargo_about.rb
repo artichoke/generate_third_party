@@ -2,6 +2,7 @@
 # typed: strict
 
 require 'open3'
+require 'sorbet-runtime'
 require 'stringio'
 
 module Artichoke
