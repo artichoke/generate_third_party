@@ -14,7 +14,7 @@ if manifest_path.nil? || !manifest_path.end_with?('Cargo.toml')
   exit 1
 end
 
-unless Artichoke::Generate::ThirdParty::CargoAbout.present?
+unless Artichoke::GenerateThirdParty::CargoAbout.present?
   warn <<~ERR
     Error: `cargo-about` not found in PATH.
 
@@ -26,4 +26,4 @@ unless Artichoke::Generate::ThirdParty::CargoAbout.present?
   exit 1
 end
 
-puts Artichoke::Generate::ThirdParty::AllTargets.third_party_flatfile(manifest_path)
+puts Artichoke::GenerateThirdParty::Command::ExtractLicensesForAllTargets.call(manifest_path)

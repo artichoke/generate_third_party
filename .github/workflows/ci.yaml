@@ -109,7 +109,9 @@ jobs:
         run: bundle exec rubocop --format github
 
       - name: Typecheck with Sorbet
-        run: bundle exec srb tc
+        run: |
+          bundle exec srb tc
+          bundle exec srb tc bin/install-cargo-about bin/generate-third-party-text-file bin/generate-third-party-text-file-single-target
 
   text:
     name: Lint and format text
