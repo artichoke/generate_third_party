@@ -33,7 +33,10 @@ runs:
 
     - name: Install generate_third_party
       shell: bash
-      run: gem install ${{ github.action_path }}
+      run: |
+        gem build generate_third_party.gemspec
+        gem install generate_third_party-*.gem
+      working-directory: ${{ github.action_path }}
 
     - name: Install cargo-about
       shell: bash
