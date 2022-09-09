@@ -93,7 +93,7 @@ DEPENDENCIES
   rubocop (~> 1.36)
   rubocop-rake (~> 0.6)
   sorbet (~> 0.5)
-  tapioca
+  tapioca (~> 0.10)
 
 BUNDLED WITH
    2.3.21
