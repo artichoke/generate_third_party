@@ -5,6 +5,34 @@ gem:
   # - gem_name
   # doc: true
   # workers: 5
+  exclude:
+    - ast
+    - bundler
+    - bundler-audit
+    - coderay
+    - diff-lcs
+    - method_source
+    - netrc
+    - parallel
+    - parser
+    - pry
+    - rainbow
+    - rake
+    - rbi
+    - regexp_parser
+    - rexml
+    - rubocop
+    - rubocop-ast
+    - rubocop-rake
+    - ruby-progressbar
+    - spoom
+    - tapioca
+    - thor
+    - unicode-display_width
+    - unparser
+    - webrick
+    - yard
+    - yard-sorbet
 dsl:
   # Add your `dsl` command parameters here:
   #
