@@ -13,7 +13,7 @@ module Artichoke
         def self.third_party_flatfile(target, manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'one_target', "#{target}.toml"),
-            manifest_path:
+            manifest_path: manifest_path
           )
 
           deps = cmd.invoke

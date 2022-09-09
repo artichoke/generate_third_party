@@ -102,7 +102,7 @@ jobs:
       - name: Install Ruby toolchain
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ".ruby-version"
+          ruby-version: "2.7.6"
           bundler-cache: true
 
       - name: Lint and check formatting with Rubocop

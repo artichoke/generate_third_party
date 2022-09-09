@@ -26,16 +26,15 @@ runs:
         ref: ${{ inputs.artichoke_ref }}
         path: "generate-third-party-artichoke-${{ inputs.artichoke_ref }}"
 
-    - name: Install Ruby toolchain
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: "3.1.2"
-
     - name: Install generate_third_party
       shell: bash
       run: |
         gem build generate_third_party.gemspec
-        gem install generate_third_party-*.gem
+        if [[ "${{ runner.os }}" == "Linux" ]]; then
+          sudo gem install generate_third_party-*.gem
+        else
+          gem install generate_third_party-*.gem
+        fi
       working-directory: ${{ github.action_path }}
 
     - name: Install cargo-about
