@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'sorbet-runtime'
-require 'stringio'
 require 'yaml'
 
 module Artichoke
