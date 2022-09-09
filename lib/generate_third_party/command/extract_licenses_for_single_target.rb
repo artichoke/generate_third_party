@@ -5,14 +5,15 @@ require 'sorbet-runtime'
 require 'stringio'
 
 module Artichoke
-  module Generate
-    module ThirdParty
-      module OneTarget
+  module GenerateThirdParty
+    module Command
+      class ExtractLicensesForSingleTarget
         extend T::Sig
-        sig { params(target: String, manifest_path: String).returns(String) }
-        def self.third_party_flatfile(target, manifest_path)
+
+        sig { params(target: Target, manifest_path: String).returns(String) }
+        def self.call(target, manifest_path)
           cmd = CargoAbout.new(
-            config: File.join(__dir__, 'one_target', "#{target}.toml"),
+            config: target.cargo_about_config_path,
             manifest_path: manifest_path
           )
 

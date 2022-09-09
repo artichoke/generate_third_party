@@ -8,22 +8,9 @@ Signal.trap('PIPE', 'SYSTEM_DEFAULT') if Signal.list.include?('PIPE')
 
 require 'generate_third_party'
 
-KNOWN_TARGETS = %w[
-  aarch64-apple-darwin
-  aarch64-unknown-linux-gnu
-  aarch64-unknown-linux-musl
-  i686-pc-windows-gnu
-  i686-pc-windows-msvc
-  i686-unknown-linux-gnu
-  x86_64-apple-darwin
-  x86_64-pc-windows-gnu
-  x86_64-pc-windows-msvc
-  x86_64-unknown-linux-gnu
-  x86_64-unknown-linux-musl
-].freeze
+triple = T.let(ARGV[0], T.nilable(String))
 
-target = ARGV[0]
-if target.nil?
+if triple.nil?
   warn <<~ERR
     Error: Missing required TARGET argument.
 
@@ -31,18 +18,19 @@ if target.nil?
 
     Where TARGET is one of:
 
-    #{KNOWN_TARGETS.map { |triple| "- #{triple}" }.join("\n").strip}
+    #{Artichoke::GenerateThirdParty::Target.values.map { |target| "- #{target.serialize}" }.join("\n").strip}
   ERR
   exit 2
 end
 
-manifest_path = ARGV[1]
+manifest_path = T.let(ARGV[1], T.nilable(String))
 if manifest_path.nil? || !manifest_path.end_with?('Cargo.toml')
   warn 'Error: Must pass path to `Cargo.toml` as positional argument.'
   exit 1
 end
 
-unless KNOWN_TARGETS.include?(target)
+parsed_target = Artichoke::GenerateThirdParty::Target.try_deserialize(triple)
+if parsed_target.nil?
   warn <<~ERR
     Error: Unknown TARGET.
 
@@ -50,16 +38,12 @@ unless KNOWN_TARGETS.include?(target)
 
     Where TARGET is one of:
 
-    - x86_64-unknown-linux-gnu
-    - x86_64-unknown-linux-musl
-    - x86_64-pc-windows-msvc
-    - x86_64-apple-darwin
-    - aarch64-apple-darwin
+    #{Artichoke::GenerateThirdParty::Target.values.map { |target| "- #{target.serialize}" }.join("\n").strip}
   ERR
   exit 2
 end
 
-unless Artichoke::Generate::ThirdParty::CargoAbout.present?
+unless Artichoke::GenerateThirdParty::CargoAbout.present?
   warn <<~ERR
     Error: `cargo-about` not found in PATH.
 
@@ -71,4 +55,4 @@ unless Artichoke::Generate::ThirdParty::CargoAbout.present?
   exit 1
 end
 
-puts Artichoke::Generate::ThirdParty::OneTarget.third_party_flatfile(target, manifest_path)
+puts Artichoke::GenerateThirdParty::Command::ExtractLicensesForSingleTarget.call(parsed_target, manifest_path)
