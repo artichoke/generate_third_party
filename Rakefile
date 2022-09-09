@@ -2,6 +2,7 @@
 
 require 'open-uri'
 require 'shellwords'
+require 'bundler/gem_tasks'
 require 'bundler/audit/task'
 require 'rubocop/rake_task'
 
