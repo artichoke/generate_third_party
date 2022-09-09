@@ -8,6 +8,7 @@ AllCops:
   DisplayCopNames: true
   Exclude:
     - "**/node_modules/**/*"
+    - "**/pkg/**"
     - "**/target/**/*"
     - "**/vendor/**/*"
 Layout/EndOfLine:
@@ -16,12 +17,11 @@ Layout/LineLength:
   Enabled: true
   Exclude:
     - "**/Rakefile"
-    - "**/extn/**/*"
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Metrics:
   Enabled: false
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
 Style/Documentation:
   Enabled: false
-Style/SlicingWithRange:
-  Enabled: false # See GH-679.
