@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # typed: strict
+# frozen_string_literal: true
 
 require 'sorbet-runtime'
 require 'stringio'
@@ -10,7 +10,7 @@ module Artichoke
       module AllTargets
         extend T::Sig
 
-        sig {params(manifest_path: String).returns(String)}
+        sig { params(manifest_path: String).returns(String) }
         def self.third_party_flatfile(manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'all_targets', 'about.toml'),
@@ -40,7 +40,7 @@ module Artichoke
           s.string
         end
 
-        sig {params(manifest_path: String).returns(String)}
+        sig { params(manifest_path: String).returns(String) }
         def self.third_party_html(manifest_path)
           cmd = CargoAbout.new(
             config: File.join(__dir__, 'all_targets', 'about.toml'),

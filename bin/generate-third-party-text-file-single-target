@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: true
 # typed: strict
+# frozen_string_literal: true
 
 # avoid ugly stacks on permissible signals
 Signal.trap('INT', 'SYSTEM_DEFAULT') if Signal.list.include?('INT')

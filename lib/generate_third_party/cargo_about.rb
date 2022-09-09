@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # typed: strict
+# frozen_string_literal: true
 
 require 'open3'
 require 'sorbet-runtime'
@@ -11,14 +11,14 @@ module Artichoke
       class CargoAbout
         extend T::Sig
 
-        sig {returns(T::Boolean)}
+        sig { returns(T::Boolean) }
         def self.present?
           _out, status = Open3.capture2e('cargo about --version')
 
           status.success? || false
         end
 
-        sig {params(config: String, manifest_path: String, template: T.nilable(String)).void}
+        sig { params(config: String, manifest_path: String, template: T.nilable(String)).void }
         def initialize(config:, manifest_path:, template: nil)
           template = File.join(__dir__, 'cargo_about', 'about.hbs') if template.nil?
 
@@ -27,7 +27,7 @@ module Artichoke
           @config = T.let(config, String)
         end
 
-        sig {returns(T::Array[Dependency])}
+        sig { returns(T::Array[Dependency]) }
         def invoke
           command = ['cargo', 'about', 'generate', @template, '--manifest-path', @manifest_path, '--config', @config]
           out, err, status = Open3.capture3(command)

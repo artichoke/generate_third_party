@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # typed: strict
+# frozen_string_literal: true
 
 require 'sorbet-runtime'
 require 'stringio'
@@ -13,7 +13,7 @@ module Artichoke
 
         # Parse the output of `cargo about` and return a list of `Dependency` objects
         # alphabetized by dependency name.
-        sig {params(cargo_about_output: String).returns(T::Array[Dependency])}
+        sig { params(cargo_about_output: String).returns(T::Array[Dependency]) }
         def self.parse(cargo_about_output)
           # Psych won't parse a document delimiter in a quoted string, so munge it
           tx = cargo_about_output.gsub(
@@ -53,20 +53,8 @@ module Artichoke
       class Dependency
         extend T::Sig
 
-        sig {returns(String)}
-        attr_reader :name
-
-        sig {returns(String)}
-        attr_reader :version
-
-        sig {returns(String)}
-        attr_reader :url
-
-        sig {returns(String)}
-        attr_reader :license
-
-        sig {returns(String)}
-        attr_reader :license_id
+        sig { returns(String) }
+        attr_reader :name, :version, :url, :license, :license_id
 
         sig do
           params(
@@ -75,7 +63,7 @@ module Artichoke
             url: String,
             license: String,
             license_id: String,
-            text: String,
+            text: String
           ).void
         end
         def initialize(name, version, url, license, license_id, text)
@@ -87,7 +75,7 @@ module Artichoke
           @text = T.let(text, String)
         end
 
-        sig {params(hash: T::Hash[String, String]).returns(Dependency)}
+        sig { params(hash: T::Hash[String, String]).returns(Dependency) }
         def self.from_hash(hash)
           new(
             hash.fetch('name'),
@@ -99,7 +87,7 @@ module Artichoke
           )
         end
 
-        sig {returns(String)}
+        sig { returns(String) }
         def license_full_text
           @text.gsub(
             'aaa LLVM Exceptions to the Apache 2.0 License zzzz',
@@ -107,7 +95,7 @@ module Artichoke
           )
         end
 
-        sig {returns(String)}
+        sig { returns(String) }
         def to_yaml
           s = StringIO.new
           s.puts <<~YAML
