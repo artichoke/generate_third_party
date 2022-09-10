@@ -18,7 +18,9 @@ bundle exec generate-third-party-text-file path/to/artichoke/Cargo.toml
 To generate a `THIRDPARTY` text file for a single target triple:
 
 ```sh
-bundle exec generate-third-party-text-file-single-target x86_64-unknown-linux-gnu path/to/artichoke/Cargo.toml
+bundle exec generate-third-party-text-file-single-target \
+  --target x86_64-unknown-linux-gnu \
+  path/to/artichoke/Cargo.toml
 ```
 
 ### GitHub Actions
