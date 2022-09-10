@@ -21,6 +21,14 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Metrics:
   Enabled: false
+Sorbet/EnforceSignatures:
+  Enabled: true
+Sorbet/ForbidTUntyped:
+  Enabled: true
+Sorbet/HasSigil:
+  Enabled: true
+  SuggestedStrictness: strict
+  MinimumStrictness: strict
 Style/AccessModifierDeclarations:
   EnforcedStyle: inline
 Style/Documentation:
