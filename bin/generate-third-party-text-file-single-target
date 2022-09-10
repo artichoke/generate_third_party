@@ -2,57 +2,7 @@
 # typed: strict
 # frozen_string_literal: true
 
-# avoid ugly stacks on permissible signals
-Signal.trap('INT', 'SYSTEM_DEFAULT') if Signal.list.include?('INT')
-Signal.trap('PIPE', 'SYSTEM_DEFAULT') if Signal.list.include?('PIPE')
-
 require 'generate_third_party'
+require 'generate_third_party/script/generate_third_party_text_file_for_target'
 
-triple = T.let(ARGV[0], T.nilable(String))
-
-if triple.nil?
-  warn <<~ERR
-    Error: Missing required TARGET argument.
-
-    Usage: generate-third-party-text-file-single-target TARGET manifest-path
-
-    Where TARGET is one of:
-
-    #{Artichoke::GenerateThirdParty::Target.values.map { |target| "- #{target.serialize}" }.join("\n").strip}
-  ERR
-  exit 2
-end
-
-manifest_path = T.let(ARGV[1], T.nilable(String))
-if manifest_path.nil? || !manifest_path.end_with?('Cargo.toml')
-  warn 'Error: Must pass path to `Cargo.toml` as positional argument.'
-  exit 1
-end
-
-parsed_target = Artichoke::GenerateThirdParty::Target.try_deserialize(triple)
-if parsed_target.nil?
-  warn <<~ERR
-    Error: Unknown TARGET.
-
-    Usage: generate-third-party-text-file-single-target TARGET
-
-    Where TARGET is one of:
-
-    #{Artichoke::GenerateThirdParty::Target.values.map { |target| "- #{target.serialize}" }.join("\n").strip}
-  ERR
-  exit 2
-end
-
-unless Artichoke::GenerateThirdParty::CargoAbout.present?
-  warn <<~ERR
-    Error: `cargo-about` not found in PATH.
-
-    Try installing `cargo-about` with:
-
-        cargo install cargo-about
-
-  ERR
-  exit 1
-end
-
-puts Artichoke::GenerateThirdParty::Command::ExtractLicensesForSingleTarget.call(parsed_target, manifest_path)
+Artichoke::GenerateThirdParty::Script::GenerateThirdPartyTextFileForTarget.main

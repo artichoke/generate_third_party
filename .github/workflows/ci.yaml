@@ -50,6 +50,40 @@ jobs:
             exit 1
           fi
 
+  test-all-targets:
+    name: Test (all targets)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Clone Artichoke
+        uses: actions/checkout@v3
+        with:
+          repository: artichoke/artichoke
+          path: "artichoke"
+
+      - name: Install Ruby toolchain
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7.6"
+          bundler-cache: true
+
+      - name: Install cargo-about
+        run: bundle exec install-cargo-about "${{ runner.os }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate THIRDPARTY for all targets
+        run: bundle exec generate-third-party-text-file artichoke/Cargo.toml
+
+      - name: Check THIRDPARTY output
+        shell: bash
+        run: |
+          if (( $(grep -c . < THIRDPARTY) < 10 )); then
+            exit 1
+          fi
+
   platform-support:
     name: Platform Support
     runs-on: ${{ matrix.os }}

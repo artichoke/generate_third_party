@@ -47,7 +47,7 @@ runs:
       shell: bash
       run: |
         generate-third-party-text-file-single-target \
-          "${{ inputs.target_triple }}" \
+          --target "${{ inputs.target_triple }}" \
           "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
           > "${{ inputs.output_file }}"
 
