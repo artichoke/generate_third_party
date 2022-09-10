@@ -16,6 +16,20 @@ module Artichoke
         status.success? || false
       end
 
+      sig { void }
+      def self.assert_on_path!
+        return if present?
+
+        warn <<~ERR
+          Error: `cargo-about` not found in PATH.
+
+          Try installing `cargo-about` with:
+
+          $ install-cargo-about
+        ERR
+        exit(1)
+      end
+
       sig { params(config: String, manifest_path: String, template: T.nilable(String)).void }
       def initialize(config:, manifest_path:, template: nil)
         template = File.join(__dir__, 'cargo_about', 'about.hbs') if template.nil?
