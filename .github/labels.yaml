@@ -19,7 +19,7 @@
   description: "Area: Infrastructure for running an open source project."
 - name: "A-release"
   color: "f7e101"
-  description: "Area: Nightly releases and version bumps."
+  description: "Area: Gem / GitHub Actions releases and version bumps."
 - name: "A-security"
   color: "f7e101"
   description: "Area: Security vulnerabilities and unsoundness issues."
