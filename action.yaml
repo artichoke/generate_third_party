@@ -39,7 +39,7 @@ runs:
 
     - name: Install cargo-about
       shell: bash
-      run: install-cargo-about "${{ runner.os }}"
+      run: install-cargo-about --platform "${{ runner.os }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
 

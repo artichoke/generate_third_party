@@ -23,12 +23,10 @@ module Artichoke
 
         sig { params(target: Target, manifest_path: String).returns(String) }
         def call(target, manifest_path)
-          cmd = CargoAbout.new(
+          deps = CargoAbout.invoke(
             config: target.cargo_about_config_path,
             manifest_path: manifest_path
           )
-
-          deps = cmd.invoke
 
           s = StringIO.new
           needs_separator = T.let(false, T::Boolean)

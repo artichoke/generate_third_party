@@ -70,7 +70,7 @@ jobs:
           bundler-cache: true
 
       - name: Install cargo-about
-        run: bundle exec install-cargo-about "${{ runner.os }}"
+        run: bundle exec install-cargo-about --platform "${{ runner.os }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

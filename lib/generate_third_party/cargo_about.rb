@@ -6,7 +6,7 @@ require 'sorbet-runtime'
 
 module Artichoke
   module GenerateThirdParty
-    class CargoAbout
+    module CargoAbout
       extend T::Sig
 
       sig { returns(T::Boolean) }
@@ -30,18 +30,11 @@ module Artichoke
         exit(1)
       end
 
-      sig { params(config: String, manifest_path: String, template: T.nilable(String)).void }
-      def initialize(config:, manifest_path:, template: nil)
+      sig { params(config: String, manifest_path: String, template: T.nilable(String)).returns(T::Array[Dependency]) }
+      def self.invoke(config:, manifest_path:, template: nil)
         template = File.join(__dir__, 'cargo_about', 'about.hbs') if template.nil?
 
-        @template = T.let(template, String)
-        @manifest_path = T.let(manifest_path, String)
-        @config = T.let(config, String)
-      end
-
-      sig { returns(T::Array[Dependency]) }
-      def invoke
-        command = ['cargo', 'about', 'generate', @template, '--manifest-path', @manifest_path, '--config', @config]
+        command = ['cargo', 'about', 'generate', template, '--manifest-path', manifest_path, '--config', config]
         out, err, status = Open3.capture3(*command)
 
         warn err unless err.strip.empty?
