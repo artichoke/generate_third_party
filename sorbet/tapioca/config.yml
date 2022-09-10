@@ -25,6 +25,7 @@ gem:
     - rubocop
     - rubocop-ast
     - rubocop-rake
+    - rubocop-sorbet
     - ruby-progressbar
     - spoom
     - tapioca
