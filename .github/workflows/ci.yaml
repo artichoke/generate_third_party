@@ -69,6 +69,9 @@ jobs:
           ruby-version: "2.7.6"
           bundler-cache: true
 
+      - name: Update stable rust
+        run: rustup update stable
+
       - name: Install cargo-about
         run: bundle exec install-cargo-about --platform "${{ runner.os }}"
         env:

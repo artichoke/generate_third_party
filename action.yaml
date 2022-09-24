@@ -43,6 +43,10 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
 
+    - name: Update stable rust
+      shell: bash
+      run: rustup update stable
+
     - name: Generate THIRDPARTY
       shell: bash
       run: |
@@ -50,6 +54,8 @@ runs:
           --target "${{ inputs.target_triple }}" \
           "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
           > "${{ inputs.output_file }}"
+      env:
+        RUST_TOOLCHAIN: stable
 
     - name: Cleanup
       shell: bash
