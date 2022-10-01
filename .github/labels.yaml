@@ -25,7 +25,7 @@
   description: "Area: Security vulnerabilities and unsoundness issues."
 - name: "A-target"
   color: "f7e101"
-  description: "Area: nightly build support for various target triples."
+  description: "Area: build support for various target triples."
 - name: "A-thirdparty"
   color: "f7e101"
   description: "Area: THIRDPARTY license listings."
