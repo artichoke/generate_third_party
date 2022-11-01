@@ -23,7 +23,12 @@ module Artichoke
       # https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
       sig { params(name: String, value: String).void }
       def self.set_output(name:, value:)
-        puts "::set-output name=#{name}::#{value}"
+        out = ENV.fetch('GITHUB_OUTPUT', nil)
+        return if out.nil?
+
+        File.open(out, 'a') do |f|
+          f.puts "#{name}=#{value}"
+        end
       end
 
       # Create an expandable log group in GitHub Actions job logs.

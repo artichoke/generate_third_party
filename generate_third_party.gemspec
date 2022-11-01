@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name                  = 'generate_third_party'
-  s.version               = '1.2.0'
+  s.version               = '1.3.0'
   s.required_ruby_version = '>= 2.7.0'
   s.summary               = "Generate Artichoke's third party dependencies"
   s.description           = 'Generate lists of third party dependencies and their licenses'
