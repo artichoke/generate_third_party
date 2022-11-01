@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.0
+
+Released 2022-10-31.
+
+### Bug Fixes
+
+- Address deprecated 'set-output' command in GitHub Actions. [#38]
+
+[#38]: https://github.com/artichoke/generate_third_party/pull/38
+
 ## 1.2.0
 
 Released 2022-10-15.
