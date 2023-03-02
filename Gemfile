@@ -10,4 +10,4 @@ gem 'rubocop', '~> 1.46', require: false
 gem 'rubocop-rake', '~> 0.6', require: false
 gem 'rubocop-sorbet', '~> 0.6', require: false
 gem 'sorbet', '~> 0.5', require: false
-gem 'tapioca', '~> 0.10', require: false
+gem 'tapioca', '~> 0.11', require: false
