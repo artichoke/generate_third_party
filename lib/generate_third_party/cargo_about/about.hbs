@@ -5,8 +5,10 @@ deps:
   - name: "{{{crate.name}}}"
     version: "{{{crate.version}}}"
     url: "{{#if crate.repository ~}} {{{crate.repository}}} {{~ else ~}} https://crates.io/crates/{{{crate.name}}} {{~ /if}}"
-    license: "{{{../name}}}"
-    license_id: "{{{../id}}}"
+    license: >-
+      {{{../name}}}
+    license_id: >-
+      {{{../id}}}
 @@@@text-start@@@@
 {{{../text}}}
 @@@@text-end@@@@
@@ -15,8 +17,10 @@ deps:
   - name: "mruby"
     version: "3.1.0"
     url: "https://github.com/mruby/mruby"
-    license: "MIT License"
-    license_id: "MIT"
+    license: >-
+      MIT License
+    license_id: >-
+      MIT
     text: |
       Copyright (c) 2010-2021 mruby developers
 
@@ -40,8 +44,10 @@ deps:
   - name: "oniguruma"
     version: "6.9.8"
     url: "https://github.com/kkos/oniguruma/tree/08d36110c5670c815ad6d6f969e578049d209080"
-    license: "2-Clause BSD License"
-    license_id: "BSD-2-Clause"
+    license: >-
+      2-Clause BSD License
+    license_id: >-
+      BSD-2-Clause
     text: |
       Oniguruma LICENSE
       -----------------

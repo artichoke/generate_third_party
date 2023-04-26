@@ -32,8 +32,10 @@ module Artichoke
           - name: #{name}
             version: "#{version}"
             url: "#{url}"
-            license: #{license}
-            license_id: #{license_id}
+            license: >-
+              #{license}
+            license_id: >-
+              #{license_id}
         YAML
 
         # The `|2` indentation specifier is necessary because some licenses like
