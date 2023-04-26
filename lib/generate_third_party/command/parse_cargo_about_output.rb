@@ -1,8 +1,8 @@
 # typed: strict
 # frozen_string_literal: true
 
+require 'json'
 require 'sorbet-runtime'
-require 'yaml'
 
 module Artichoke
   module GenerateThirdParty
@@ -19,41 +19,58 @@ module Artichoke
           new.call(raw)
         end
 
+        # rubocop:disable Sorbet/ForbidTUntyped
         sig { params(raw: String).returns(T::Array[Dependency]) }
         def call(raw)
-          # Psych won't parse a document delimiter in a quoted string, so munge it
-          tx = raw.gsub(
-            '--- LLVM Exceptions to the Apache 2.0 License ----',
-            'aaa LLVM Exceptions to the Apache 2.0 License zzzz'
-          )
+          data = JSON.parse(raw)
+          licenses = T.let(data['licenses'], T::Array[T::Hash[String, T.untyped]])
 
-          # turn license text blocks into pipe-delimited literal multi-line strings
-          is_text = T.let(false, T::Boolean)
-          tx = tx.each_line.map do |line|
-            if is_text && line == "@@@@text-end@@@@\n"
-              is_text = false
-              next nil
+          deps = T.let([], T::Array[Dependency])
+          deps << ExternalDeps::MRUBY
+          deps << ExternalDeps::ONIGURUMA
+
+          licenses.each do |license|
+            license_name = T.let(license['name'], String)
+            license_id = T.let(license['id'], String)
+            license_text = T.let(license['text'], String)
+
+            used_by = T.let(license['used_by'], T::Array[T::Hash[String, T.untyped]])
+            used_by.each do |entry|
+              crate = T.let(entry['crate'], T::Hash[String, T.untyped])
+
+              crate_name = T.let(crate['name'], String)
+              crate_version = T.let(crate['version'], String)
+              crate_description = T.let(crate['description'], T.nilable(String))
+
+              crate_url = T.let(nil, T.nilable(String))
+              if crate_url.nil?
+                homepage = T.let(crate['homepage'], T.nilable(String))
+                crate_url = homepage
+              end
+              if crate_url.nil?
+                repository = T.let(crate['repository'], T.nilable(String))
+                crate_url = repository
+              end
+              if crate_url.nil?
+                docs = T.let(crate['documentation'], T.nilable(String))
+                crate_url = docs
+              end
+
+              deps << Dependency.new(
+                name: crate_name,
+                version: crate_version,
+                url: crate_url,
+                description: crate_description,
+                license: license_name,
+                license_id: license_id,
+                license_text: license_text
+              )
             end
-            next "      #{line}" if is_text
-
-            if line == "@@@@text-start@@@@\n"
-              is_text = true
-              # The `|2` indentation specifier is necessary because some licenses like
-              # Apache-2.0 have initial lines that begin with whitespace.
-              next "    text: |2\n"
-            end
-            line
-          end
-
-          yaml_output = tx.compact.join
-
-          deps = YAML.safe_load(yaml_output)
-          deps = deps['deps'].map do |hash|
-            Dependency.from_hash(hash)
           end
 
           deps.sort_by!(&:name)
         end
+        # rubocop:enable Sorbet/ForbidTUntyped
       end
     end
   end

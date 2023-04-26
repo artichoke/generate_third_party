@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.5.0
+
+Released 2022-04-25.
+
+### Internal Changes
+
+- Use json output from `cargo-about`. [#87]
+
+[#87]: https://github.com/artichoke/generate_third_party/pull/87
+
+### Bug Fixes
+
+- Permit ISC and BSD-3-Clause license types. [#85]
+- Update embedded mruby license text to v3.2.0. [#86]
+
+[#85]: https://github.com/artichoke/generate_third_party/pull/85
+[#86]: https://github.com/artichoke/generate_third_party/pull/86
+
+## 1.4.0
+
+Released 2022-04-01.
+
+### Internal Changes
+
+Many dependency upgrades. See GitHub PRs [#40] through [#84].
+
+[#40]: https://github.com/artichoke/generate_third_party/pull/40
+[#84]: https://github.com/artichoke/generate_third_party/pull/84
+
 ## 1.3.0
 
 Released 2022-10-31.
