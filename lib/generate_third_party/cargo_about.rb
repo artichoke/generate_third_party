@@ -30,11 +30,19 @@ module Artichoke
         exit(1)
       end
 
-      sig { params(config: String, manifest_path: String, template: T.nilable(String)).returns(T::Array[Dependency]) }
-      def self.invoke(config:, manifest_path:, template: nil)
-        template = File.join(__dir__, 'cargo_about', 'about.hbs') if template.nil?
-
-        command = ['cargo', 'about', 'generate', template, '--manifest-path', manifest_path, '--config', config]
+      sig { params(config: String, manifest_path: String).returns(T::Array[Dependency]) }
+      def self.invoke(config:, manifest_path:)
+        command = [
+          'cargo',
+          'about',
+          'generate',
+          '--manifest-path',
+          manifest_path,
+          '--config',
+          config,
+          '--format',
+          'json'
+        ]
         out, err, status = Open3.capture3(*command)
 
         warn err unless err.strip.empty?

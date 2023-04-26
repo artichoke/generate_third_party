@@ -39,9 +39,14 @@ module Artichoke
 
             s.puts "#{dep.name} #{dep.version}"
             s.puts ''
-            s.puts dep.url
-            s.puts
-            s.puts dep.license_full_text
+
+            s.puts dep.description unless dep.description.nil?
+            s.puts '' unless dep.description.nil?
+
+            s.puts dep.url unless dep.url.nil?
+            s.puts '' unless dep.url.nil?
+
+            s.puts dep.license_text
 
             needs_separator = true
           end
