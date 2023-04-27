@@ -1,14 +1,54 @@
 # Changelog
 
-## 1.5.0
+## 1.9.0
 
-Released 2022-04-25.
+Released 2023-04-27.
+
+### Packaging Changes
+
+- Add github action branding metadata, prepare v1.9.0 release. [#91]
+
+[#91]: https://github.com/artichoke/generate_third_party/pull/91
+
+## 1.8.0
+
+Released 2023-04-27.
+
+### Packaging Changes
+
+- Upgrade gemspec minimum Ruby version to 3.0.0. [#90]
+
+[#90]: https://github.com/artichoke/generate_third_party/pull/90
 
 ### Internal Changes
+
+- Upgrade development Ruby version and bundler version. [#89]
+
+[#89]: https://github.com/artichoke/generate_third_party/pull/89
+
+## 1.7.0
+
+Released 2023-04-26.
+
+### Action Changes
+
+- Echo cargo-about version in composite action. [#88]
+
+[#88]: https://github.com/artichoke/generate_third_party/pull/88
+
+## 1.6.0
+
+Released 2023-04-26.
+
+### Action Changes
 
 - Use json output from `cargo-about`. [#87]
 
 [#87]: https://github.com/artichoke/generate_third_party/pull/87
+
+## 1.5.0
+
+Released 2022-04-25.
 
 ### Bug Fixes
 
@@ -20,7 +60,7 @@ Released 2022-04-25.
 
 ## 1.4.0
 
-Released 2022-04-01.
+Released 2023-04-01.
 
 ### Internal Changes
 
