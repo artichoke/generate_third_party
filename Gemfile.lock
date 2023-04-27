@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    generate_third_party (1.9.0)
+    generate_third_party (1.10.0)
       sorbet-runtime (~> 0.5)
 
 GEM

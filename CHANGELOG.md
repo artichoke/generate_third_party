@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.10.0
+
+Released 2023-04-27.
+
+### Action Changes
+
+- Checkout artichoke/artichoke repository in the a better temp directory. [#93]
+
+[#93]: https://github.com/artichoke/generate_third_party/pull/93
+
 ## 1.9.0
 
 Released 2023-04-27.
