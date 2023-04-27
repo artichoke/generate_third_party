@@ -3,8 +3,8 @@ name: "Generate THIRDPARTY"
 description: "Generate license listing of third party dependencies in Artichoke Ruby"
 
 branding:
-  icon: 'book'
-  color: 'green'
+  icon: "book"
+  color: "green"
 
 inputs:
   artichoke_ref:
