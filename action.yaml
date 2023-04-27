@@ -2,6 +2,10 @@
 name: "Generate THIRDPARTY"
 description: "Generate license listing of third party dependencies in Artichoke Ruby"
 
+branding:
+  icon: 'book'
+  color: 'green'
+
 inputs:
   artichoke_ref:
     required: true
@@ -39,9 +43,9 @@ runs:
       run: |
         gem build generate_third_party.gemspec
         if [[ "${{ runner.os }}" == "Linux" ]]; then
-          sudo gem install generate_third_party-1.8.0.gem
+          sudo gem install generate_third_party-1.9.0.gem
         else
-          gem install generate_third_party-1.8.0.gem
+          gem install generate_third_party-1.9.0.gem
         fi
       working-directory: ${{ github.action_path }}
 

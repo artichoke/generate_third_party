@@ -30,7 +30,7 @@ This repository is available as a GitHub Action:
 ```yaml
 - name: Generate THIRDPARTY license listing
   id: generate_third_party
-  uses: artichoke/generate_third_party@v1.8.0
+  uses: artichoke/generate_third_party@v1.9.0
   with:
     artichoke_ref: trunk
     target_triple: x86_64-unknown-linux-gnu
