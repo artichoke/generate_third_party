@@ -31,21 +31,34 @@ runs:
         git config --system core.autocrlf false
         git config --system core.eol lf
 
+    # `actions/checkout` only permits checkouts within the `github.workspace`
+    # directory. See https://github.com/actions/checkout/issues/197.
+    - name: Set paths
+      shell: bash
+      id: paths
+      run: |
+        temp_prefix="${{ github.workspace }}/${{ github.action }}-${{ github.run_id }}-${{ github.run_attempt }}"
+        mkdir -p "$temp_prefix"
+        artichoke_repository_path="${temp_prefix}/artichoke@${{ inputs.artichoke_ref }}"
+        echo "CLEANUP_PATH=${temp_prefix}" >> "$GITHUB_OUTPUT"
+        echo "ARTICHOKE_REPOSITORY_PATH=${artichoke_repository_path}" >> "$GITHUB_OUTPUT"
+        echo "CARGO_MANIFEST_PATH=${artichoke_repository_path}/Cargo.toml" >> "$GITHUB_OUTPUT"
+
     - name: Clone Artichoke
       uses: actions/checkout@v3
       with:
         repository: artichoke/artichoke
         ref: ${{ inputs.artichoke_ref }}
-        path: "generate-third-party-artichoke-${{ inputs.artichoke_ref }}"
+        path: ${{ steps.paths.outputs.ARTICHOKE_REPOSITORY_PATH }}
 
     - name: Install generate_third_party
       shell: bash
       run: |
         gem build generate_third_party.gemspec
         if [[ "${{ runner.os }}" == "Linux" ]]; then
-          sudo gem install generate_third_party-1.9.0.gem
+          sudo gem install generate_third_party-1.10.0.gem
         else
-          gem install generate_third_party-1.9.0.gem
+          gem install generate_third_party-1.10.0.gem
         fi
       working-directory: ${{ github.action_path }}
 
@@ -68,11 +81,11 @@ runs:
       run: |
         generate-third-party-text-file-single-target \
           --target "${{ inputs.target_triple }}" \
-          "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}/Cargo.toml" \
+          "${{ steps.paths.outputs.CARGO_MANIFEST_PATH }}" \
           > "${{ inputs.output_file }}"
       env:
         RUST_TOOLCHAIN: stable
 
     - name: Cleanup
       shell: bash
-      run: rm -rf "${{ github.workspace }}/generate-third-party-artichoke-${{ inputs.artichoke_ref }}"
+      run: rm -rf "${{ steps.paths.outputs.CLEANUP_PATH }}"
