@@ -39,9 +39,9 @@ runs:
       run: |
         gem build generate_third_party.gemspec
         if [[ "${{ runner.os }}" == "Linux" ]]; then
-          sudo gem install generate_third_party-1.6.0.gem
+          sudo gem install generate_third_party-1.7.0.gem
         else
-          gem install generate_third_party-1.6.0.gem
+          gem install generate_third_party-1.7.0.gem
         fi
       working-directory: ${{ github.action_path }}
 
@@ -50,6 +50,10 @@ runs:
       run: install-cargo-about --platform "${{ runner.os }}"
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
+
+    - name: cargo about --version
+      shell: bash
+      run: cargo about --version
 
     - name: Update stable rust
       shell: bash
