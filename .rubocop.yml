@@ -21,6 +21,8 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Metrics:
   Enabled: false
+Lint/RedundantStringCoercion:
+  Enabled: false # doesn't play nice with Sorbet, which doesn't understand Ruby coercion
 Sorbet/EnforceSignatures:
   Enabled: true
 Sorbet/ForbidTUntyped:
