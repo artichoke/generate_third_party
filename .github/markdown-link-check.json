@@ -4,9 +4,6 @@
       "pattern": "img.shields.io"
     },
     {
-      "pattern": "^https://docs.rs/.*"
-    },
-    {
       "pattern": "^https://twitter.com/artichokeruby"
     }
   ],
