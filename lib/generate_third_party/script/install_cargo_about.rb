@@ -32,14 +32,14 @@ module Artichoke
             begin
               option_parser.parse!
             rescue OptionParser::InvalidOption => e
-              warn option_parser
+              warn option_parser.to_s
               warn ''
-              warn e
+              warn e.to_s
               exit(2)
             end
 
             if !ARGV.empty? || platform.nil?
-              warn option_parser
+              warn option_parser.to_s
               exit(2)
             end
 

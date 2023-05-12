@@ -24,15 +24,15 @@ module Artichoke
             begin
               option_parser.parse!
             rescue OptionParser::InvalidOption => e
-              warn option_parser
+              warn option_parser.to_s
               warn ''
-              warn e
+              warn e.to_s
               exit(2)
             end
 
             manifest_path, *rest = ARGV
             if manifest_path.nil? || rest.nil? || !rest.empty? || !manifest_path.end_with?('Cargo.toml')
-              warn option_parser
+              warn option_parser.to_s
               exit(2)
             end
 
