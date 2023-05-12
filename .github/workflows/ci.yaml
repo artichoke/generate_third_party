@@ -66,7 +66,7 @@ jobs:
       - name: Install Ruby toolchain
         uses: ruby/setup-ruby@d2b39ad0b52eca07d23f3aa14fdf2a3fcc1f411c # v1.148.0
         with:
-          ruby-version: "2.7.6"
+          ruby-version: "3.0.0" # see minimum version requirement in gemspec
           bundler-cache: true
 
       - name: Update stable rust
@@ -139,7 +139,7 @@ jobs:
       - name: Install Ruby toolchain
         uses: ruby/setup-ruby@d2b39ad0b52eca07d23f3aa14fdf2a3fcc1f411c # v1.148.0
         with:
-          ruby-version: "2.7.6"
+          ruby-version: ".ruby-version"
           bundler-cache: true
 
       - name: Lint and check formatting with Rubocop
