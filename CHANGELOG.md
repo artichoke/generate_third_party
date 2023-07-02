@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.11.0
+
+Released 2023-07-02.
+
+### Action Changes
+
+- Use stricter version pinning for GitHub Actions. [#94]
+- Rollup of May 2023 dependabot RubyGems updates. [#106]
+- Update deps. [#109], [#110], [#111], [#112], [#113], [#114], [#115], [#116],
+  [#117], [#121]
+
+### Internal Changes
+
+- Use stricter version pinning for GitHub Actions. [#94]
+- Bump ruby/setup-ruby from 1.147.0 to 1.148.0. [#95]
+- Stop monitoring Twitter links, fix markdown link check job. [#104]
+- Remove unneeded ignore pattern from markdown link check config. [#105]
+- Update CI to install Ruby version compatible with gemspec. [#107]
+- Update dependabot.yml. [#108]
+
+[#94]: https://github.com/artichoke/generate_third_party/pull/94
+[#95]: https://github.com/artichoke/generate_third_party/pull/95
+[#104]: https://github.com/artichoke/generate_third_party/pull/104
+[#105]: https://github.com/artichoke/generate_third_party/pull/105
+[#106]: https://github.com/artichoke/generate_third_party/pull/106
+[#107]: https://github.com/artichoke/generate_third_party/pull/107
+[#108]: https://github.com/artichoke/generate_third_party/pull/108
+[#109]: https://github.com/artichoke/generate_third_party/pull/109
+[#110]: https://github.com/artichoke/generate_third_party/pull/110
+[#111]: https://github.com/artichoke/generate_third_party/pull/111
+[#112]: https://github.com/artichoke/generate_third_party/pull/112
+[#113]: https://github.com/artichoke/generate_third_party/pull/113
+[#114]: https://github.com/artichoke/generate_third_party/pull/114
+[#115]: https://github.com/artichoke/generate_third_party/pull/115
+[#116]: https://github.com/artichoke/generate_third_party/pull/116
+[#117]: https://github.com/artichoke/generate_third_party/pull/117
+[#121]: https://github.com/artichoke/generate_third_party/pull/121
+
 ## 1.10.0
 
 Released 2023-04-27.
