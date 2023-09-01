@@ -30,7 +30,7 @@ jobs:
           - x86_64-unknown-linux-musl
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
         with:
           path: generate_third_party_action
 
@@ -55,10 +55,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
 
       - name: Clone Artichoke
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
         with:
           repository: artichoke/artichoke
           path: "artichoke"
@@ -109,7 +109,7 @@ jobs:
             target: x86_64-pc-windows-msvc
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
         with:
           path: generate_third_party_action
 
@@ -134,7 +134,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
 
       - name: Install Ruby toolchain
         uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939 # v1.152.0
@@ -155,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
 
       - name: Lint and check formatting with prettier
         run: npx prettier --check '**/*'

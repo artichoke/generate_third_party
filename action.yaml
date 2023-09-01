@@ -45,7 +45,7 @@ runs:
         echo "CARGO_MANIFEST_PATH=${artichoke_repository_path}/Cargo.toml" >> "$GITHUB_OUTPUT"
 
     - name: Clone Artichoke
-      uses: actions/checkout@v3.5.3
+      uses: actions/checkout@v3.6.0
       with:
         repository: artichoke/artichoke
         ref: ${{ inputs.artichoke_ref }}
