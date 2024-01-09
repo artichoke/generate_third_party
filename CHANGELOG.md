@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.12.1
+
+Release 2024-01-08.
+
+### Internal Changes
+
+- Update `dependabot.yml` to update npm deps. [#137]
+- Upgrade Ruby dependencies. [#138]
+
+[#137]: https://github.com/artichoke/generate_third_party/pull/137
+[#138]: https://github.com/artichoke/generate_third_party/pull/138
+
 ## 1.12.0
 
 Released 2024-01-08.
