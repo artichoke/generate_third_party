@@ -1,0 +1,39 @@
+{
+  "name": "@artichokeruby/generate_third_party",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generate listings of third party licenses for Artichoke Ruby",
+  "keywords": [
+    "license",
+    "spdx",
+    "rubygem",
+    "ruby",
+    "rust"
+  ],
+  "homepage": "https://github.com/artichoke/generate_third_party/releases/latest",
+  "bugs": "https://github.com/artichoke/generate_third_party/issues",
+  "license": "MIT",
+  "author": "Ryan Lopopolo <rjl@hyperbo.la> (https://hyperbo.la/)",
+  "contributors": [
+    "Ryan Lopopolo <rjl@hyperbo.la> (https://hyperbo.la/)"
+  ],
+  "repository": "github:artichoke/generate_third_party",
+  "devDependencies": {
+    "prettier": "^3.1.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    }
+  },
+  "scripts": {
+    "fmt": "prettier --write \"**/*\""
+  }
+}
