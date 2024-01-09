@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.12.0
+
+Released 2024-01-08.
+
+### Internal Changes
+
+- Update `dependabot.yml` to use dependency groups. [#122]
+- Upgrade Ruby dependencies. [#123], [#124], [#126], #[128], [#129].
+  [#131], #[133], [#135]
+- Upgrade GitHub Actions dependencies. [#125], [#127], [#129], [#132], [#134]
+
+[#122]: https://github.com/artichoke/generate_third_party/pull/122
+[#123]: https://github.com/artichoke/generate_third_party/pull/123
+[#124]: https://github.com/artichoke/generate_third_party/pull/124
+[#125]: https://github.com/artichoke/generate_third_party/pull/125
+[#126]: https://github.com/artichoke/generate_third_party/pull/126
+[#127]: https://github.com/artichoke/generate_third_party/pull/127
+[#128]: https://github.com/artichoke/generate_third_party/pull/128
+[#129]: https://github.com/artichoke/generate_third_party/pull/129
+[#131]: https://github.com/artichoke/generate_third_party/pull/131
+[#132]: https://github.com/artichoke/generate_third_party/pull/132
+[#133]: https://github.com/artichoke/generate_third_party/pull/133
+[#134]: https://github.com/artichoke/generate_third_party/pull/134
+[#135]: https://github.com/artichoke/generate_third_party/pull/135
+
 ## 1.11.0
 
 Released 2023-07-02.
