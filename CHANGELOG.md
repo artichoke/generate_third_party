@@ -1,8 +1,28 @@
 # Changelog
 
+## 1.13.0
+
+Released 2024-02-19.
+
+## Action Changes
+
+- Permit MIT-0 license. [#142]
+
+### Internal Changes
+
+- Upgrade Ruby dependencies. [#138], [#139].
+- Upgrade GitHub Actions dependencies. [#140]
+- Upgrade npm dependencies. [#141
+
+[#138]: https://github.com/artichoke/generate_third_party/pull/138
+[#139]: https://github.com/artichoke/generate_third_party/pull/139
+[#140]: https://github.com/artichoke/generate_third_party/pull/140
+[#141]: https://github.com/artichoke/generate_third_party/pull/141
+[#142]: https://github.com/artichoke/generate_third_party/pull/142
+
 ## 1.12.1
 
-Release 2024-01-08.
+Released 2024-01-08.
 
 ### Internal Changes
 
