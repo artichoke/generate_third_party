@@ -19,7 +19,7 @@
   ],
   "repository": "github:artichoke/generate_third_party",
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.3.2"
   },
   "eslintConfig": {
     "env": {
