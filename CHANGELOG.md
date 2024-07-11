@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.14.0
+
+Released 2024-07-10.
+
+### Internal Changes
+
+- Upgrade Ruby dependencies. [#144], [#146], [#147], #[150], [#151], [#152],
+  [#155], [#158].
+- Upgrade GitHub Actions dependencies. [#143], [#148], [#149], [#157].
+- Upgrade npm dependencies. [#145]
+
 ## 1.13.0
 
 Released 2024-02-19.
