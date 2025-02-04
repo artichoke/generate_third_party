@@ -1,15 +1,71 @@
 # Changelog
 
+## 1.15.0
+
+Released 2025-02-03.
+
+## Action Changes
+
+- Permit Unicode-3.0 license. [#179]
+- Revoke Unicode-DFS-2016 license. [#179]
+- Rework action to defend against template injection. [#180]
+- Pin all dependencies by Git hash. [#181]
+
+[#179]: https://github.com/artichoke/generate_third_party/pull/179
+[#180]: https://github.com/artichoke/generate_third_party/pull/180
+[#181]: https://github.com/artichoke/generate_third_party/pull/181
+
+### Internal Changes
+
+- Upgrade Ruby dependencies. [#161], [#163], [#166], [#168], [#171], [#176],
+  [#155], [#158].
+- Upgrade GitHub Actions dependencies. [#160], [#164], [#165], [#167], [#170],
+  [#175], [#178].
+- Upgrade npm dependencies. [#169], [#177].
+- Purge unused CI jobs and configuration. [#172], [#173].
+
+[#161]: https://github.com/artichoke/generate_third_party/pull/161
+[#163]: https://github.com/artichoke/generate_third_party/pull/163
+[#164]: https://github.com/artichoke/generate_third_party/pull/164
+[#165]: https://github.com/artichoke/generate_third_party/pull/165
+[#166]: https://github.com/artichoke/generate_third_party/pull/166
+[#167]: https://github.com/artichoke/generate_third_party/pull/167
+[#168]: https://github.com/artichoke/generate_third_party/pull/168
+[#169]: https://github.com/artichoke/generate_third_party/pull/169
+[#170]: https://github.com/artichoke/generate_third_party/pull/170
+[#171]: https://github.com/artichoke/generate_third_party/pull/171
+[#172]: https://github.com/artichoke/generate_third_party/pull/172
+[#173]: https://github.com/artichoke/generate_third_party/pull/173
+[#174]: https://github.com/artichoke/generate_third_party/pull/174
+[#175]: https://github.com/artichoke/generate_third_party/pull/175
+[#176]: https://github.com/artichoke/generate_third_party/pull/176
+[#177]: https://github.com/artichoke/generate_third_party/pull/177
+[#178]: https://github.com/artichoke/generate_third_party/pull/178
+
 ## 1.14.0
 
 Released 2024-07-10.
 
 ### Internal Changes
 
-- Upgrade Ruby dependencies. [#144], [#146], [#147], #[150], [#151], [#152],
+- Upgrade Ruby dependencies. [#144], [#146], [#147], [#150], [#151], [#152],
   [#155], [#158].
 - Upgrade GitHub Actions dependencies. [#143], [#148], [#149], [#157].
 - Upgrade npm dependencies. [#145]
+
+[#143]: https://github.com/artichoke/generate_third_party/pull/143
+[#144]: https://github.com/artichoke/generate_third_party/pull/144
+[#145]: https://github.com/artichoke/generate_third_party/pull/145
+[#146]: https://github.com/artichoke/generate_third_party/pull/146
+[#147]: https://github.com/artichoke/generate_third_party/pull/147
+[#148]: https://github.com/artichoke/generate_third_party/pull/148
+[#149]: https://github.com/artichoke/generate_third_party/pull/149
+[#150]: https://github.com/artichoke/generate_third_party/pull/150
+[#151]: https://github.com/artichoke/generate_third_party/pull/151
+[#152]: https://github.com/artichoke/generate_third_party/pull/152
+[#152]: https://github.com/artichoke/generate_third_party/pull/155
+[#157]: https://github.com/artichoke/generate_third_party/pull/157
+[#158]: https://github.com/artichoke/generate_third_party/pull/158
 
 ## 1.13.0
 
@@ -23,7 +79,7 @@ Released 2024-02-19.
 
 - Upgrade Ruby dependencies. [#138], [#139].
 - Upgrade GitHub Actions dependencies. [#140]
-- Upgrade npm dependencies. [#141
+- Upgrade npm dependencies. [#141]
 
 [#138]: https://github.com/artichoke/generate_third_party/pull/138
 [#139]: https://github.com/artichoke/generate_third_party/pull/139
@@ -50,9 +106,9 @@ Released 2024-01-08.
 ### Internal Changes
 
 - Update `dependabot.yml` to use dependency groups. [#122]
-- Upgrade Ruby dependencies. [#123], [#124], [#126], #[128], [#129].
-  [#131], #[133], [#135]
-- Upgrade GitHub Actions dependencies. [#125], [#127], [#129], [#132], [#134]
+- Upgrade Ruby dependencies. [#123], [#124], [#126], [#128], [#129], [#131],
+  [#133], [#135].
+- Upgrade GitHub Actions dependencies. [#125], [#127], [#129], [#132], [#134].
 
 [#122]: https://github.com/artichoke/generate_third_party/pull/122
 [#123]: https://github.com/artichoke/generate_third_party/pull/123
@@ -77,7 +133,7 @@ Released 2023-07-02.
 - Use stricter version pinning for GitHub Actions. [#94]
 - Rollup of May 2023 dependabot RubyGems updates. [#106]
 - Update deps. [#109], [#110], [#111], [#112], [#113], [#114], [#115], [#116],
-  [#117], [#121]
+  [#117], [#121].
 
 ### Internal Changes
 
