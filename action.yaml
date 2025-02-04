@@ -8,17 +8,17 @@ branding:
 
 inputs:
   artichoke_ref:
+    description: Git ref to checkout in artichoke/artichoke repository.
     required: true
-    type: string
   target_triple:
+    description: LLVM target triple used to select platform-specific dependencies.
     required: true
-    type: string
   output_file:
+    description: Path to output file.
     required: true
-    type: string
   github_token:
+    description: Github token from Actions environment.
     required: true
-    type: string
 
 runs:
   using: "composite"
@@ -37,12 +37,14 @@ runs:
       shell: bash
       id: paths
       run: |
-        temp_prefix="${{ github.workspace }}/${{ github.action }}-${{ github.run_id }}-${{ github.run_attempt }}"
-        mkdir -p "$temp_prefix"
-        artichoke_repository_path="${temp_prefix}/artichoke@${{ inputs.artichoke_ref }}"
-        echo "CLEANUP_PATH=${temp_prefix}" >> "$GITHUB_OUTPUT"
+        mkdir -p "$TEMP_PREFIX"
+        artichoke_repository_path="${TEMP_PREFIX}/artichoke@${ARTICHOKE_REF}"
+        echo "CLEANUP_PATH=${TEMP_PREFIX}" >> "$GITHUB_OUTPUT"
         echo "ARTICHOKE_REPOSITORY_PATH=${artichoke_repository_path}" >> "$GITHUB_OUTPUT"
         echo "CARGO_MANIFEST_PATH=${artichoke_repository_path}/Cargo.toml" >> "$GITHUB_OUTPUT"
+      env:
+        TEMP_PREFIX: ${{ github.workspace }}/${{ github.action }}-${{ github.run_id }}-${{ github.run_attempt }}
+        ARTICHOKE_REF: ${{ inputs.artichoke_ref }}
 
     - name: Clone Artichoke
       uses: actions/checkout@v4.2.2
@@ -79,13 +81,15 @@ runs:
     - name: Generate THIRDPARTY
       shell: bash
       run: |
-        generate-third-party-text-file-single-target \
-          --target "${{ inputs.target_triple }}" \
-          "${{ steps.paths.outputs.CARGO_MANIFEST_PATH }}" \
-          > "${{ inputs.output_file }}"
+        generate-third-party-text-file-single-target --target "$TARGET_TRIPLE" "$CARGO_MANIFEST_PATH" > "$OUTPUT_FILE"
       env:
         RUST_TOOLCHAIN: stable
+        TARGET_TRIPLE: ${{ inputs.target_triple }}
+        CARGO_MANIFEST_PATH: ${{ steps.paths.outputs.CARGO_MANIFEST_PATH }}
+        OUTPUT_FILE: ${{ inputs.output_file }}
 
     - name: Cleanup
       shell: bash
-      run: rm -rf "${{ steps.paths.outputs.CLEANUP_PATH }}"
+      run: rm -rf "$CLEANUP_PATH"
+      env:
+        CLEANUP_PATH: ${{ steps.paths.outputs.CLEANUP_PATH }}
