@@ -71,7 +71,7 @@ jobs:
       - name: Install Ruby toolchain
         uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb # v1.244.0
         with:
-          ruby-version: "3.0.0" # see minimum version requirement in gemspec
+          ruby-version: "3.2.0" # see minimum version requirement in gemspec
           bundler-cache: true
 
       - name: Update stable rust
