@@ -1,10 +1,10 @@
 ---
-require:
+plugins:
   - rubocop-rake
   - rubocop-sorbet
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
   DisplayCopNames: true
   Exclude:
     - "**/node_modules/**/*"
