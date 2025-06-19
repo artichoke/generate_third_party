@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.16.0
+
+Released 2025-06018.
+
+## Action Changes
+
+- Upgrade minimum Ruby version to 3.2.x. [#173]
+
+[#173]: https://github.com/artichoke/generate_third_party/pull/173
+
+### Internal Changes
+
+- Upgrade Ruby dependencies. [#173]
+- Upgrade GitHub Actions dependencies. [#183], [#186], [#187], [#188].
+- Upgrade npm dependencies. [#184], [#185].
+
+[#183]: https://github.com/artichoke/generate_third_party/pull/183
+[#184]: https://github.com/artichoke/generate_third_party/pull/184
+[#185]: https://github.com/artichoke/generate_third_party/pull/185
+[#186]: https://github.com/artichoke/generate_third_party/pull/186
+[#187]: https://github.com/artichoke/generate_third_party/pull/187
+[#188]: https://github.com/artichoke/generate_third_party/pull/188
+
 ## 1.15.0
 
 Released 2025-02-03.
