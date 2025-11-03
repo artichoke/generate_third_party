@@ -8,6 +8,6 @@ gem 'bundler-audit', '~> 0.9', require: false
 gem 'rake', '>= 12.3.3', require: false
 gem 'rubocop', '~> 1.81', require: false
 gem 'rubocop-rake', '~> 0.7', require: false
-gem 'rubocop-sorbet', '~> 0.10', require: false
+gem 'rubocop-sorbet', '~> 0.11', require: false
 gem 'sorbet', '~> 0.6', require: false
 gem 'tapioca', '~> 0.17', require: false
