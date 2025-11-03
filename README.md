@@ -1,7 +1,6 @@
 # generate_third_party
 
 [![GitHub Actions](https://github.com/artichoke/generate_third_party/workflows/CI/badge.svg)](https://github.com/artichoke/generate_third_party/actions)
-[![Discord](https://img.shields.io/discord/607683947496734760)](https://discord.gg/QCe2tp2)
 [![Twitter](https://img.shields.io/twitter/follow/artichokeruby?label=Follow&style=social)](https://twitter.com/artichokeruby)
 
 Generate listings of third party dependencies and their licenses for copyright
